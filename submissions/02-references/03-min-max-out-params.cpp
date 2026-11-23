@@ -6,8 +6,7 @@
 bool min_max(const std::vector<int>& v, int& lo, int& hi) {
     // TODO
     if (v.empty()) return false;
-    lo = v[0];
-    hi = v[0];
+    lo = hi = v[0];
     for (int n : v) {
         lo = std::min(n, lo);
         hi = std::max(n, hi);
