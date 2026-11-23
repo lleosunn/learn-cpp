@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "02-references/02-const-ref",
+ "last_problem": "02-references/03-min-max-out-params",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -53,11 +53,11 @@
    "solved_at": "2026-11-23T00:15:24"
   },
   "02-references/03-min-max-out-params": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include <algorithm>\n#include <vector>\n\n// Set lo/hi to the smallest/largest element of v and return true.\n// If v is empty, return false and leave lo and hi exactly as they were.\nbool min_max(const std::vector<int>& v, int& lo, int& hi) {\n    // TODO\n    if (std::size(v) == 0) return false;\n    lo = v[0];\n    hi = v[0];\n    for (const int& n : v) {\n        lo = std::min(n, lo);\n        hi = std::max(n, hi);\n    }\n    return true;\n}\n",
+   "attempts": 3,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-23T00:29:00"
   },
   "02-references/04-overloads-defaults": {
    "status": "untouched",
