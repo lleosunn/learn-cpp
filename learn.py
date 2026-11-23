@@ -27,6 +27,8 @@ PROBLEMS = ROOT / "problems"
 HARNESS = ROOT / "harness"
 WEB = ROOT / "web"
 PROGRESS_FILE = ROOT / "progress.json"
+SUBMISSIONS = ROOT / "submissions"
+GIT_LOCK = threading.Lock()
 
 CXX = os.environ.get("CXX", "clang++")
 CXXFLAGS = ["-std=c++17", "-Wall", "-Wextra", "-g", "-O0", "-fno-omit-frame-pointer",
@@ -247,6 +249,43 @@ def api_save(body):
     return {"ok": True, "status": e["status"]}
 
 
+def verdict(r):
+    if not r["compile_ok"]:
+        return "Compile Error"
+    if r["solved"]:
+        return f"Accepted ({r['passed']}/{r['total']})"
+    if r["timed_out"]:
+        return "Time Limit Exceeded"
+    if r["crashed"]:
+        return "Runtime Error"
+    return f"Wrong Answer ({r['passed']}/{r['total']})"
+
+
+def git_record(pid, code, result):
+    """Commit this submission (the code as submissions/<pid>.cpp, plus progress.json) and push it.
+
+    Runs in the background and is best effort: if this is not a git repo, or the push fails,
+    it prints one line and the submission is unaffected. An unpushed commit goes up with the next push.
+    """
+    title = json.loads((problem_dir(pid) / "meta.json").read_text())["title"]
+    src = SUBMISSIONS / f"{pid}.cpp"
+
+    def work():
+        with GIT_LOCK:  # one git process at a time, commits in submission order
+            try:
+                src.parent.mkdir(parents=True, exist_ok=True)
+                src.write_text(code)
+                paths = ["--", str(src), str(PROGRESS_FILE)]
+                for args in (["add", *paths], ["commit", "-q", "-m", f"{title}: {verdict(result)}", *paths], ["push", "-q"]):
+                    subprocess.run(["git", "-C", str(ROOT), *args], check=True, capture_output=True, text=True,
+                                   timeout=30, env=dict(os.environ, GIT_TERMINAL_PROMPT="0"))
+            except (subprocess.SubprocessError, OSError) as err:
+                print(f"git: {(getattr(err, 'stderr', None) or str(err)).strip()}")
+
+    # ponytail: daemon thread, so Ctrl+C right after a submit can drop that push; it goes up with the next one.
+    threading.Thread(target=work, daemon=True).start()
+
+
 def api_run(body):
     pid, code = body["id"], body["code"]
     result = run_problem(pid, code)
@@ -260,6 +299,7 @@ def api_run(body):
     elif e["status"] == "untouched":
         e["status"] = "attempted"
     progress.save()
+    git_record(pid, code, result)
     ids = all_ids()
     nxt = ids[ids.index(pid) + 1] if pid in ids and ids.index(pid) + 1 < len(ids) else None
     result.update(status=e["status"], next_id=nxt)
