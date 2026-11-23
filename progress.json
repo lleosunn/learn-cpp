@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/01-deref-or-fallback",
+ "last_problem": "03-pointers/02-swap-through-pointers",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -81,11 +81,11 @@
    "solved_at": "2026-11-23T13:26:16"
   },
   "03-pointers/02-swap-through-pointers": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "// Swap the ints a and b point at and return true.\n// If either pointer is null, change nothing and return false.\n// This starter is deliberately wrong: it compiles, returns true, and swaps nothing. Run it first.\nbool swap_through(int* a, int* b) {\n    // TODO: this swaps the local pointers, not the ints they point at. Also handle null.\n    if (a == nullptr || b == nullptr) return false;\n    int t = *a;\n    *a = *b;\n    *b = t;\n    return true;\n}\n",
+   "attempts": 6,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-23T13:30:33"
   },
   "03-pointers/03-c-array-sum-max": {
    "status": "untouched",
