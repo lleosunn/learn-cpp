@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "02-references/03-min-max-out-params",
+ "last_problem": "02-references/04-overloads-defaults",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -61,7 +61,7 @@
   },
   "02-references/04-overloads-defaults": {
    "status": "untouched",
-   "code": null,
+   "code": "// Clamp x into [lo, hi]. Two overloads are needed: one for int, one for double.\n// Defaults: int version [0, 100], double version [0.0, 1.0].\nint clamp_value(int x, int lo = 0, int hi = 100) {\n    // TODO\n    return x;\n}\n\n// TODO: double overload\n",
    "attempts": 0,
    "hints_revealed": 0,
    "solved_at": null
