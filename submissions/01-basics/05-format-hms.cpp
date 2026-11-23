@@ -2,12 +2,8 @@
 
 // Format total_seconds (>= 0) as H:MM:SS: hours unpadded, minutes and seconds two digits.
 std::string pad2(int val) {
-    if (val < 10) {
-        return "0" + std::to_string(val);
-    }
-    else {
-        return std::to_string(val);
-    }
+    if (val < 10) return "0" + std::to_string(val);
+    return std::to_string(val);
 }
 
 std::string format_hms(int total_seconds) {
