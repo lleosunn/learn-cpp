@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/03-c-array-sum-max",
+ "last_problem": "03-pointers/04-c-strings",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -95,11 +95,11 @@
    "solved_at": "2026-11-23T13:58:00"
   },
   "03-pointers/04-c-strings": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include <cstddef>\n\n// Number of chars in s before the '\\0' terminator.\nstd::size_t c_strlen(const char* s) {\n    // TODO: walk a pointer forward until *p == '\\0', then return the distance from s\n    const char* p = s;\n    while (*p != '\\0') ++p;\n    return p - s;\n}\n\n// Pointer to the first c in s, or nullptr if absent. c == '\\0' finds the terminator.\nconst char* find_char(const char* s, char c) {\n    bool stop = false;\n    while (not stop) {\n        if (*s == c) return s;\n        if (*s == '\\0') stop = true;\n        ++s;\n    }\n    return nullptr;\n}\n",
+   "attempts": 7,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-23T14:30:35"
   },
   "03-pointers/05-pointer-to-pointer": {
    "status": "untouched",
