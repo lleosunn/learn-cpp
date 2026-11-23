@@ -26,8 +26,8 @@
   },
   "01-basics/04-widen-before-multiply": {
    "status": "attempted",
-   "code": "// Return a * b exactly, as a 64-bit integer.\nlong long product(int a, int b) {\n    // TODO: this compiles. Run the tests and read the UBSan report.\n    return static_cast<long long>(a * b);\n}\n",
-   "attempts": 2,
+   "code": "// Return a * b exactly, as a 64-bit integer.\nlong long product(int a, int b) {\n    // TODO: this compiles. Run the tests and read the UBSan report.\n    a = static_cast<long long>(a);\n    b = static_cast<long long>(b);\n    return a*b;\n}\n",
+   "attempts": 3,
    "hints_revealed": 0,
    "solved_at": null
   },
