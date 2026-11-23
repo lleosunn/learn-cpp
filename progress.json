@@ -1,7 +1,7 @@
 {
  "version": 1,
- "last_problem": "01-basics/02-average",
- "playground_code": null,
+ "last_problem": "01-basics/04-widen-before-multiply",
+ "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
    "status": "solved",
@@ -11,23 +11,23 @@
    "solved_at": "2026-10-06T15:11:44"
   },
   "01-basics/02-average": {
-   "status": "attempted",
-   "code": "// Return the mean of a, b and c as a double.\ndouble average(int a, int b, int c) {\n    // TODO: this compiles -- but is it right? Run the tests and read the output.\n    return (a + b + c) / 3;\n}\n",
-   "attempts": 0,
+   "status": "solved",
+   "code": "// Return the mean of a, b and c as a double.\ndouble average(int a, int b, int c) {\n    // TODO: this compiles -- but is it right? Run the tests and read the output.\n    return static_cast<double>(a + b + c) / 3;\n}\n",
+   "attempts": 4,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-22T20:48:24"
   },
   "01-basics/03-shift-letter": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "// Shift a lowercase letter forward by k (k >= 0), wrapping z -> a.\n// Anything that is not a-z is returned unchanged.\nchar shift_letter(char c, int k) {\n    // TODO: c - 'a' is 0..25; shift it, wrap with % 26, convert back to a char\n    \n    // check if c is a valid character\n    if (c < 'a' || 'z' < c) {\n        return c;\n    }\n    int offset = (c - 'a' + k) % 26;\n    c = static_cast<char>('a' + offset);\n    return c;\n}\n",
+   "attempts": 8,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-22T20:58:56"
   },
   "01-basics/04-widen-before-multiply": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "attempted",
+   "code": "// Return a * b exactly, as a 64-bit integer.\nlong long product(int a, int b) {\n    // TODO: this compiles. Run the tests and read the UBSan report.\n    return a * b;\n}\n",
+   "attempts": 1,
    "hints_revealed": 0,
    "solved_at": null
   },
