@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "02-references/04-overloads-defaults",
+ "last_problem": "02-references/05-return-reference-safely",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -61,17 +61,17 @@
   },
   "02-references/04-overloads-defaults": {
    "status": "solved",
-   "code": "// Clamp x into [lo, hi]. Two overloads are needed: one for int, one for double.\n// Defaults: int version [0, 100], double version [0.0, 1.0].\n# include <algorithm>\n\nint clamp_value(int x, int lo = 0, int hi = 100) {\n    return std::clamp(x, lo, hi);\n}\n\n// TODO: double overload\ndouble clamp_value(double x, double lo = 0.0, double hi = 1.0) {\n    return std::clamp(x, lo, hi);\n}",
+   "code": "// Clamp x into [lo, hi]. Two overloads are needed: one for int, one for double.\n// Defaults: int version [0, 100], double version [0.0, 1.0].\n#include <algorithm>\n\nint clamp_value(int x, int lo = 0, int hi = 100) {\n    return std::clamp(x, lo, hi);\n}\n\n// TODO: double overload\ndouble clamp_value(double x, double lo = 0.0, double hi = 1.0) {\n    return std::clamp(x, lo, hi);\n}",
    "attempts": 4,
    "hints_revealed": 0,
    "solved_at": "2026-11-23T12:12:10"
   },
   "02-references/05-return-reference-safely": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include <string>\n#include <vector>\n\n// Return a reference to the longest string in words (first wins ties).\n// words is non-empty. Do not copy the string.\n// This version compiles with a warning. Run it and read what the sanitizer says.\nconst std::string& longest_word(const std::vector<std::string>& words) {\n    int best_index = 0;\n    std::size_t best_length = 0;\n    for (std::size_t i = 0; i < words.size(); ++i) {\n        if (words[i].size() > best_length){\n            best_length = words[i].size();\n            best_index = i;\n        }\n    }\n    return words[best_index];\n}\n",
+   "attempts": 9,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-23T12:32:27"
   },
   "03-pointers/01-deref-or-fallback": {
    "status": "untouched",
