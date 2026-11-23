@@ -40,9 +40,9 @@
   },
   "02-references/01-swap": {
    "status": "solved",
-   "code": "// Exchange the values of the caller's two variables.\n// This version compiles and runs, but the caller never sees a change. Why?\nvoid swap_ints(int& a, int& b) {\n    int t = a;\n    a = b;\n    b = t;\n}\n",
-   "attempts": 1,
-   "hints_revealed": 0,
+   "code": "// Exchange the values of the caller's two variables.\n// This version compiles and runs, but the caller never sees a change. Why?\n# include <utility>\nvoid swap_ints(int& a, int& b) {\n    std::swap(a, b);\n    }",
+   "attempts": 5,
+   "hints_revealed": 3,
    "solved_at": "2026-11-22T23:03:35"
   },
   "02-references/02-const-ref": {
