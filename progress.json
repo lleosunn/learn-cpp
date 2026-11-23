@@ -39,11 +39,11 @@
    "solved_at": "2026-11-22T22:00:22"
   },
   "02-references/01-swap": {
-   "status": "untouched",
-   "code": "// Exchange the values of the caller's two variables.\n// This version compiles and runs, but the caller never sees a change. Why?\nvoid swap_ints(int a, int b) {\n    int t = a;\n    a = b;\n    b = t;\n}\n",
-   "attempts": 0,
+   "status": "solved",
+   "code": "// Exchange the values of the caller's two variables.\n// This version compiles and runs, but the caller never sees a change. Why?\nvoid swap_ints(int& a, int& b) {\n    int t = a;\n    a = b;\n    b = t;\n}\n",
+   "attempts": 1,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-22T23:03:35"
   },
   "02-references/02-const-ref": {
    "status": "untouched",
