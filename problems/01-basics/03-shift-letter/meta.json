@@ -1,0 +1,9 @@
+{
+  "title": "Caesar-Shift a Letter",
+  "difficulty": "easy",
+  "hints": [
+    "`c - 'a'` turns a lowercase letter into a number 0..25, and `'a' + n` turns it back. Both are ordinary `int` arithmetic, because a `char` is just a small integer. Return anything outside `'a'..'z'` untouched.",
+    "Add `k` to that 0..25 value, take `% 26` to wrap, then add `'a'` back. The result of that expression is an `int` (`'a' + 1` is `98`), and the function returns a `char`, so narrow it explicitly with `static_cast<char>(...)`.",
+    "```cpp\nif (c < 'a' || c > 'z') return c;\nreturn static_cast<char>('a' + (c - 'a' + k) % 26);\n```"
+  ]
+}

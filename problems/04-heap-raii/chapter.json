@@ -1,0 +1,1 @@
+{"title": "Heap memory & RAII", "blurb": "`new` gives you memory that outlives the function and a debt to repay with `delete`; RAII moves that debt into a destructor so the compiler pays it for you."}

@@ -1,0 +1,9 @@
+{
+  "title": "IntBuffer Deep Copy",
+  "difficulty": "hard",
+  "hints": [
+    "Copy constructor: allocate your own array, then copy the values across.\n```cpp\nIntBuffer(const IntBuffer& o) : data_(new int[o.n_]), n_(o.n_) {\n    std::copy(o.data_, o.data_ + n_, data_);\n}\n```\nAfterwards the two objects point at different memory, so each destructor frees its own array.",
+    "Assignment is harder because `*this` already owns an array. Safe order: allocate the new array, copy into it, `delete[]` the old one, install the new pointer, update `n_`, `return *this;`. Never `delete[] data_` *before* you have finished reading from `o`: when `&o == this` you would be reading freed memory. An `if (this == &o) return *this;` guard at the top handles that case explicitly.",
+    "Copy-and-swap reuses the copy constructor and is self-assignment safe by construction:\n```cpp\nIntBuffer& operator=(const IntBuffer& o) {\n    IntBuffer tmp(o);               // deep copy first\n    std::swap(data_, tmp.data_);    // take its array\n    std::swap(n_, tmp.n_);\n    return *this;                   // tmp's destructor frees our old array\n}\n```"
+  ]
+}

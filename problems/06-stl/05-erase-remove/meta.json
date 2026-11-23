@@ -1,0 +1,9 @@
+{
+  "title": "Remove, Dedupe, Intersect",
+  "difficulty": "hard",
+  "hints": [
+    "You cannot erase inside a range-for: it has no iterator to hand to `erase`, and even if it did, erasing invalidates the iterator the loop is holding. Use the erase-remove idiom instead: `std::remove` shifts the keepers to the front and returns the new logical end; `erase` chops the tail.\n\n```cpp\nv.erase(std::remove(v.begin(), v.end(), x), v.end());\n```",
+    "`dedupe_keep_order`: walk the input once with a `std::unordered_set<int> seen` beside it. `seen.insert(y)` returns a pair; `.second` is `true` only if `y` was not already there. Push to the output exactly when it is.\n\n```cpp\nstd::unordered_set<int> seen;\nfor (int y : v)\n    if (seen.insert(y).second) out.push_back(y);\n```",
+    "`std::set_intersection` requires both inputs to be sorted and writes to an output iterator. Build a `std::set<int>` from each vector (sorted and unique for free), then write into the result with `std::back_inserter`.\n\n```cpp\nstd::set<int> sa(a.begin(), a.end()), sb(b.begin(), b.end());\nstd::vector<int> out;\nstd::set_intersection(sa.begin(), sa.end(), sb.begin(), sb.end(), std::back_inserter(out));\nreturn out;\n```"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Prefix Sums and Safe Indexing",
+  "difficulty": "easy",
+  "hints": [
+    "`running_sum`: build a fresh vector and `push_back` one value per input element. `out.reserve(v.size())` first so it allocates once instead of growing.\n\n```cpp\nstd::vector<int> out;\nout.reserve(v.size());\nint acc = 0;\nfor (int x : v) out.push_back(acc += x);\nreturn out;\n```",
+    "`v.size()` returns `std::size_t`, an unsigned type. Compare the index `i` against it directly, as `std::size_t`, never as `int` (that is what `-Wsign-compare` complains about). There is no negative index to worry about: an unsigned `i` can only be too big.",
+    "The starter's `get_at` reads `v[i]` without checking. `operator[]` never checks, so `i == v.size()` reads memory past the end of the buffer (ASan calls it heap-buffer-overflow). Check first:\n\n```cpp\nif (i >= v.size()) return false;\nout = v[i];\nreturn true;\n```"
+  ]
+}

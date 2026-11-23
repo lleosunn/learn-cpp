@@ -1,0 +1,9 @@
+{
+  "title": "Capstone: Generic LRU Cache",
+  "difficulty": "hard",
+  "hints": [
+    "`get`: look the key up in `index_`, splice that node to the front of `order_` (list iterators survive `splice`), then return the value through the same iterator.\n```cpp\nauto it = index_.find(key);\nif (it == index_.end()) return std::nullopt;\norder_.splice(order_.begin(), order_, it->second);\nreturn it->second->second;\n```",
+    "`put` has two paths. Existing key: `it->second->second = std::move(value);` then splice to the front. New key: `order_.emplace_front(key, std::move(value)); index_[key] = order_.begin();`. Moving instead of copying is what keeps `Tracked::copies` at 0.",
+    "Evict at the end of the new-key path, map entry first because `pop_back` destroys the key you need:\n```cpp\nif (order_.size() > cap_) {\n    index_.erase(order_.back().first);\n    order_.pop_back();\n}\n```\n`contains` is `index_.count(key) > 0`, `size` is `order_.size()`, and `keys_mru_first` walks `order_` front to back pushing each `.first`."
+  ]
+}

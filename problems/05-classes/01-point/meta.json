@@ -1,0 +1,9 @@
+{
+  "title": "Point with Const Methods",
+  "difficulty": "easy",
+  "hints": [
+    "`dist_to`: `double dx = x - o.x, dy = y - o.y; return std::sqrt(dx * dx + dy * dy);` — `std::sqrt` lives in `<cmath>`. Inside a member function a bare `x` means *this object's* `x`; `o.x` is the other point's.",
+    "The `const` after the parameter list (`double dist_to(const Point& o) const`) promises the method does not modify `*this`. Only `const` methods can be called on a `const Point`, which is why the last test refuses to compile until `dist_to` and `scaled` carry it. `translate` mutates, so it must *not* be `const`.",
+    "```cpp\nPoint(double x, double y) : x(x), y(y) {}\n```\nIn the initializer list the name outside the parentheses is always the member and the name inside is looked up normally, so it finds the parameter. In the body, `x = x;` assigns the parameter to itself. Then `scaled` is `return Point(x * k, y * k);` and `translate` is `x += dx; y += dy;`."
+  ]
+}

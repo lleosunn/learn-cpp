@@ -1,0 +1,9 @@
+{
+  "title": "Tray with std::move",
+  "difficulty": "easy",
+  "hints": [
+    "`items_.push_back(item);` does not compile. Read the error from the bottom up: it ends in \"call to deleted constructor of `std::unique_ptr`\". `push_back` is trying to *copy* a type that forbids copying.",
+    "`items_.push_back(std::move(item));` — `item` is a named variable inside `put`, so it is an lvalue even though the caller moved it in. The cast is what selects the move overload.",
+    "```cpp\nstd::unique_ptr<Tracked> take() {\n    if (items_.empty()) return nullptr;\n    auto out = std::move(items_.back());   // steal the last pointer; the slot is now null\n    items_.pop_back();                     // drop the empty slot\n    return out;                            // local returned by value: already a move, no std::move\n}\n```"
+  ]
+}

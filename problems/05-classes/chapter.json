@@ -1,0 +1,1 @@
+{"title": "Classes", "blurb": "Constructors establish invariants, destructors tear them down, `const` says what a method promises, and a class that owns memory must say what copying means."}

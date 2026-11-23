@@ -1,0 +1,9 @@
+{
+  "title": "IntBuffer with Move",
+  "difficulty": "hard",
+  "hints": [
+    "Move constructor: steal both members, then hollow out the source so its destructor has nothing to free.\n```cpp\nIntBuffer(IntBuffer&& o) noexcept : data_(o.data_), n_(o.n_) {\n    o.data_ = nullptr;\n    o.n_ = 0;\n}\n```\nForget the two `o.` lines and ASan reports a double-free at the end of the first test.",
+    "Move assignment must first release what `this` already owns, and must survive `a = std::move(a)` through an alias:\n```cpp\nIntBuffer& operator=(IntBuffer&& o) noexcept {\n    if (this != &o) {\n        delete[] data_;\n        data_ = o.data_;  n_ = o.n_;\n        o.data_ = nullptr; o.n_ = 0;\n    }\n    return *this;\n}\n```",
+    "Shorter alternative, move-and-swap: move-construct a temporary from the source (that empties it), swap the temporary into `this`, and let the temporary's destructor free your old buffer.\n```cpp\nIntBuffer& operator=(IntBuffer&& o) noexcept {\n    IntBuffer tmp(std::move(o));   // o is now empty: your move ctor did that\n    std::swap(data_, tmp.data_);\n    std::swap(n_, tmp.n_);\n    return *this;                  // tmp dies here, taking our old buffer with it\n}\n```\nA bare `std::swap` with `o` (no temporary) also works, but then `o` walks away holding your old buffer instead of being empty, and the tests expect empty. Either way, both move operations must be `noexcept`, or the `std::vector` identity test fails: without the promise, `vector` copies on reallocation."
+  ]
+}

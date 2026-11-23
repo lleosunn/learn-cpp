@@ -1,0 +1,9 @@
+{
+  "title": "Make and Destroy One Object",
+  "difficulty": "easy",
+  "hints": [
+    "`Tracked t(v); return &t;` is the tempting wrong answer. `t` lives in `make_tracked`'s stack frame and is destroyed at the closing brace, so the caller reads a dead object (AddressSanitizer calls it `stack-use-after-return`). You need storage that survives the return.",
+    "`new Tracked(v)` constructs the object on the heap and hands back a `Tracked*`. It stays alive until someone runs `delete` on that pointer. `delete nullptr` is defined to do nothing, so `destroy_tracked` needs no null check.",
+    "```cpp\nTracked* make_tracked(int v) { return new Tracked(v); }\nvoid destroy_tracked(Tracked* p) { delete p; }\n```"
+  ]
+}

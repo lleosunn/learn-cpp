@@ -1,0 +1,9 @@
+{
+  "title": "Product Without Overflow",
+  "difficulty": "medium",
+  "hints": [
+    "In which type is the multiplication *performed*? `a` and `b` are both `int`, so `a * b` is computed as a 32-bit `int`. Only the finished (already overflowed) result is widened to `long long` on the way out of `return`.",
+    "Casting the result is too late: `static_cast<long long>(a * b)` still multiplies in `int`, and so does `long long r = a * b;`. Cast one *operand*; the other is promoted to match and the multiplication itself happens in 64 bits.",
+    "```cpp\nreturn static_cast<long long>(a) * b;\n```"
+  ]
+}

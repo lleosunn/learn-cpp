@@ -1,0 +1,9 @@
+{
+  "title": "Seconds → H:MM:SS",
+  "difficulty": "medium",
+  "hints": [
+    "Split the seconds with integer division and remainder: `h = s / 3600`, `m = s % 3600 / 60`, `sec = s % 60`. Turn each number into text with `std::to_string`, and glue the pieces with `+` (at least one side of each `+` must already be a `std::string`).",
+    "Write a small helper *above* `format_hms`, `std::string pad2(int v)`, that returns `std::to_string(v)` with a `\"0\"` prepended when `v < 10`. Note that `\"0\" + v` does NOT do that: adding an `int` to a string literal is pointer arithmetic, not concatenation. Convert to `std::string` first.",
+    "```cpp\n#include <string>\n\nstd::string pad2(int v) {\n    std::string s = std::to_string(v);\n    if (v < 10) s = \"0\" + s;   // fine: s is a std::string\n    return s;\n}\n\nstd::string format_hms(int total_seconds) {\n    const int h = total_seconds / 3600;\n    const int m = total_seconds % 3600 / 60;\n    const int s = total_seconds % 60;\n    return std::to_string(h) + \":\" + pad2(m) + \":\" + pad2(s);\n}\n```"
+  ]
+}

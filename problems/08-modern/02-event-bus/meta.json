@@ -1,0 +1,9 @@
+{
+  "title": "Event Bus: Callbacks with std::function",
+  "difficulty": "medium",
+  "hints": [
+    "`subscribe` is `dict.setdefault(k, []).append(h)`: `operator[]` creates the empty vector on first use. Take the handler by value and move it in so the closure is not copied twice.\n```cpp\nhandlers_[event].push_back(std::move(h));\n```",
+    "`emit` is `const`, so `handlers_[event]` does not compile (it could insert). Look the event up with `find` and bail out when it is missing.\n```cpp\nauto it = handlers_.find(event);\nif (it == handlers_.end()) return 0;\n```",
+    "Then call every handler in order and report how many there were. `clear` is just `handlers_.erase(event);` (erasing a missing key is a no-op).\n```cpp\nfor (const auto& h : it->second) h(payload);\nreturn it->second.size();\n```"
+  ]
+}

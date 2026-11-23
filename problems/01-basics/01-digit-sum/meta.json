@@ -1,0 +1,9 @@
+{
+  "title": "Digit Sum",
+  "difficulty": "easy",
+  "hints": [
+    "Peel the last digit off with `n % 10`, then drop it with `n / 10`.",
+    "Integer `/` truncates: `123 / 10` is `12`, not `12.3`. That is what makes a `while (n > 0)` loop finish.",
+    "```cpp\nif (n < 0) n = -n;\nint sum = 0;\nwhile (n > 0) { sum += n % 10; n /= 10; }\nreturn sum;\n```"
+  ]
+}

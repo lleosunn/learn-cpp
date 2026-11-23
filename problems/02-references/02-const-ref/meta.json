@@ -1,0 +1,9 @@
+{
+  "title": "Sum Without Copying",
+  "difficulty": "easy",
+  "hints": [
+    "Count the places where a `Tracked` gets constructed in the starter: once per element when the parameter vector `items` is copied, and once per element for the loop variable `t`. For three elements that is 3 + 3 = 6 copies.",
+    "Both places want `const ... &`: `const std::vector<Tracked>& items` for the parameter and `const Tracked& t` for the loop variable. Read, never copy.",
+    "```cpp\nint sum_values(const std::vector<Tracked>& items) {\n    int s = 0;\n    for (const Tracked& t : items) s += t.value;\n    return s;\n}\n```\n`for (const auto& t : items)` is the same thing with the element type deduced."
+  ]
+}

@@ -1,0 +1,1 @@
+{"title": "Smart pointers & move semantics", "blurb": "Ownership becomes a type: unique_ptr for one owner, shared_ptr for many, weak_ptr for watchers; std::move is how ownership changes hands."}

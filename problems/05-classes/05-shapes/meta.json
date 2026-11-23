@@ -1,0 +1,9 @@
+{
+  "title": "Virtual Dispatch",
+  "difficulty": "hard",
+  "hints": [
+    "Put `virtual` on `Shape::area()`, `Shape::name()`, and the destructor. Then mark the derived versions `override`: the compiler will refuse to compile if a function marked `override` does not actually match a virtual in the base (a missing `const` is the classic mistake).",
+    "`virtual double area() const = 0;` makes `area` *pure virtual* and `Shape` abstract: you cannot create a bare `Shape`, only objects of derived classes that implement `area`. Keep a body on `name()` returning `\"shape\"` so derived classes may inherit it.",
+    "```cpp\nclass Shape {\npublic:\n    virtual ~Shape() = default;\n    virtual double area() const = 0;\n    virtual std::string name() const { return \"shape\"; }\n};\n```\n`largest_name`: walk the vector keeping a `const Shape* best` (start at `nullptr`); replace it when `!best || s->area() > best->area()`; return `best ? best->name() : \"\"`."
+  ]
+}

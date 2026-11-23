@@ -1,0 +1,9 @@
+{
+  "title": "Swap Two Ints",
+  "difficulty": "easy",
+  "hints": [
+    "Add `std::cout << &a << \"\\n\";` inside `swap_ints` and `std::cout << &x << \"\\n\";` just before the call (needs `#include <iostream>`). Two different addresses means the function is working on a copy of `x`, not on `x`.",
+    "Change the parameter types from `int` to `int&`. The body does not need to change at all; `a` and `b` become other names for the caller's variables.",
+    "```cpp\nvoid swap_ints(int& a, int& b) {\n    int t = a;\n    a = b;\n    b = t;\n}\n```\nIn real code you would write `std::swap(a, b)` from `<utility>`, which does exactly this for any type."
+  ]
+}

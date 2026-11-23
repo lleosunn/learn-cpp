@@ -1,0 +1,9 @@
+{
+  "title": "Tree with Weak Parent Links",
+  "difficulty": "medium",
+  "hints": [
+    "Trace the counts. The caller holds `root`; `child->parent` also holds `root`. When the caller lets go, `root`'s count drops to 1, not 0. The child keeps the parent alive and the parent keeps the child alive, so neither count ever reaches zero and `Tracked::alive` stays at 3.",
+    "Change the member to `std::weak_ptr<Node> parent;`. Assigning a `shared_ptr` to it still works, but it does not count. To read it you need a temporary owner: `auto p = n->parent.lock();` which is an empty `shared_ptr` if the parent has already been destroyed.",
+    "```cpp\nstd::shared_ptr<Node> add_child(const std::shared_ptr<Node>& parent, int value) {\n    auto c = std::make_shared<Node>();\n    c->tag.value = value;\n    c->parent = parent;                 // weak: no count change\n    parent->children.push_back(c);      // shared: parent owns c\n    return c;\n}\nint depth(const std::shared_ptr<Node>& n) {\n    int d = 0;\n    auto cur = n;\n    while (auto p = cur->parent.lock()) { ++d; cur = p; }\n    return d;\n}\n```\n`parent_of` is just `return n->parent.lock();`."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Sort, Filter, Reduce a Roster",
+  "difficulty": "medium",
+  "hints": [
+    "`std::sort(v.begin(), v.end(), cmp)` where `cmp` is a lambda taking two `const Student&` and returning `true` when the first must come before the second. Higher score first means `a.score > b.score`; on equal scores compare names with `<`. Never use `>=` or `<=` in a comparator.\n\n```cpp\nstd::sort(v.begin(), v.end(), [](const Student& a, const Student& b) {\n    if (a.score != b.score) return a.score > b.score;\n    return a.name < b.name;\n});\n```",
+    "`std::accumulate(first, last, init, op)` folds a range. The type of `init` is the type of the running total, so pass `0.0`, not `0`, or the mean is truncated. `op` takes the running total and one element:\n\n```cpp\ndouble total = std::accumulate(v.begin(), v.end(), 0.0,\n    [](double acc, const Student& s) { return acc + s.score; });\nreturn total / static_cast<double>(v.size());   // after checking v.empty()\n```",
+    "`std::find_if` returns an iterator to the first match, or `v.end()` if there is none. Turn the iterator into a pointer with `&*it` so the caller gets the address of the element inside `v`, not a copy.\n\n```cpp\nauto it = std::find_if(v.begin(), v.end(),\n    [&](const Student& s) { return s.name == name; });\nreturn it == v.end() ? nullptr : &*it;\n```\n\nFor `names_above`, a plain range-for with `if (s.score > min_score) out.push_back(s.name);` is the idiomatic answer."
+  ]
+}

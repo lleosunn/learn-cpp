@@ -1,0 +1,9 @@
+{
+  "title": "clamp_value Overloads",
+  "difficulty": "medium",
+  "hints": [
+    "Two functions can share the name `clamp_value` as long as their parameter types differ. Write the `int` one, then copy it and change every `int` to `double` (and the defaults to `0.0` and `1.0`).",
+    "Defaults go in the parameter list: `int lo = 0, int hi = 100`. They fill from the right, so `clamp_value(7, 1, 5)` overrides both and `clamp_value(150)` uses both. If you ever split declaration from definition, the defaults go on the declaration only.",
+    "```cpp\nint clamp_value(int x, int lo = 0, int hi = 100) {\n    return x < lo ? lo : (x > hi ? hi : x);\n}\n\ndouble clamp_value(double x, double lo = 0.0, double hi = 1.0) {\n    return x < lo ? lo : (x > hi ? hi : x);\n}\n```\nIn real code reach for `std::clamp(x, lo, hi)` from `<algorithm>`."
+  ]
+}

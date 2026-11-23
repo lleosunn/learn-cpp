@@ -1,0 +1,1 @@
+{"title": "Functions, references & const", "blurb": "Everything is copied unless you say `&`; `const&` is how you read without paying; and a reference must never outlive what it refers to."}

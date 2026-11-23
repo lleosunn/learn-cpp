@@ -1,0 +1,1 @@
+{"title": "STL containers & algorithms", "blurb": "Stop writing loops: vector, string, map, set plus <algorithm> cover 90% of Python's list/dict/set idioms, once you learn to think in [begin, end) ranges."}

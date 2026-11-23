@@ -1,0 +1,9 @@
+{
+  "title": "Growable Stack on a Raw Buffer",
+  "difficulty": "hard",
+  "hints": [
+    "Two numbers, not one: `size_` is how many ints are in use, `cap_` is how many fit in the block `data_` points to. `push` may only write `data_[size_]` when `size_ < cap_`, so grow first: `if (size_ == cap_) grow();`.",
+    "`grow()` is problem 3 again with `int`: `new_cap = cap_ ? cap_ * 2 : 1`, allocate `new int[new_cap]`, copy the first `size_` values (not `cap_`), `delete[]` the old block, then point `data_` at the new one and set `cap_`. `pop` must not free or shrink anything; just decrement `size_`.",
+    "```cpp\nvoid push(int v) {\n    if (size_ == cap_) grow();\n    data_[size_++] = v;\n}\nbool pop(int& out) {\n    if (size_ == 0) return false;\n    out = data_[--size_];\n    return true;\n}\nvoid grow() {\n    std::size_t new_cap = cap_ ? cap_ * 2 : 1;\n    int* p = new int[new_cap];\n    std::copy(data_, data_ + size_, p);\n    delete[] data_;\n    data_ = p;\n    cap_ = new_cap;\n}\n// plus ~IntStack() { delete[] data_; } and the two = delete lines\n```"
+  ]
+}

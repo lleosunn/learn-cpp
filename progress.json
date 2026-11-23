@@ -1,0 +1,287 @@
+{
+ "version": 1,
+ "last_problem": "01-basics/02-average",
+ "playground_code": null,
+ "problems": {
+  "01-basics/01-digit-sum": {
+   "status": "solved",
+   "code": "// Return the sum of the decimal digits of |n|.\nint digit_sum(int n) {\n    // TODO: peel digits off with % and /\n    int sum = 0;\n    n = std::abs(n);\n    while (n){\n        sum += n % 10;\n        n = n / 10;\n    }\n    return sum;\n}\n",
+   "attempts": 7,
+   "hints_revealed": 0,
+   "solved_at": "2026-10-06T15:11:44"
+  },
+  "01-basics/02-average": {
+   "status": "attempted",
+   "code": "// Return the mean of a, b and c as a double.\ndouble average(int a, int b, int c) {\n    // TODO: this compiles -- but is it right? Run the tests and read the output.\n    return (a + b + c) / 3;\n}\n",
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "01-basics/03-shift-letter": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "01-basics/04-widen-before-multiply": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "01-basics/05-format-hms": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "02-references/01-swap": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "02-references/02-const-ref": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "02-references/03-min-max-out-params": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "02-references/04-overloads-defaults": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "02-references/05-return-reference-safely": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/01-deref-or-fallback": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/02-swap-through-pointers": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/03-c-array-sum-max": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/04-c-strings": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/05-pointer-to-pointer": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "04-heap-raii/01-new-delete": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "04-heap-raii/02-new-array": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "04-heap-raii/03-grow-buffer": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "04-heap-raii/04-raii-wrapper": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "04-heap-raii/05-int-stack": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "05-classes/01-point": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "05-classes/02-account": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "05-classes/03-fraction": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "05-classes/04-rule-of-three": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "05-classes/05-shapes": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "06-stl/01-running-sum": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "06-stl/02-split-join": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "06-stl/03-word-counts": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "06-stl/04-roster": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "06-stl/05-erase-remove": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "07-smart-pointers/01-unique-ptr": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "07-smart-pointers/02-transfer-ownership": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "07-smart-pointers/03-shared-weak-tree": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "07-smart-pointers/04-rule-of-five": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "07-smart-pointers/05-linked-list": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "08-modern/01-lambdas": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "08-modern/02-event-bus": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "08-modern/03-templates-constexpr": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "08-modern/04-optional-config": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "08-modern/05-lru-cache": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  }
+ }
+}

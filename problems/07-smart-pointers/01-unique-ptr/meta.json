@@ -1,0 +1,9 @@
+{
+  "title": "make_unique and Scope",
+  "difficulty": "easy",
+  "hints": [
+    "`std::make_unique<Tracked>(v)` allocates the object and wraps it in one expression. There should be no `new` anywhere in your code.",
+    "A `unique_ptr` can be empty, and it tests like a pointer: `return p ? p->value : -1;`. Dereferencing an empty one is the same crash as dereferencing a null raw pointer.",
+    "```cpp\nstd::unique_ptr<Tracked> make_tracked(int v) { return std::make_unique<Tracked>(v); }\nint value_of(const std::unique_ptr<Tracked>& p) { return p ? p->value : -1; }\nvoid replace_with(std::unique_ptr<Tracked>& p, int v) {\n    p = std::make_unique<Tracked>(v);   // assignment deletes the old object first\n}\n```"
+  ]
+}

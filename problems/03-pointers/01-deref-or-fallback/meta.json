@@ -1,0 +1,9 @@
+{
+  "title": "Value or Fallback",
+  "difficulty": "easy",
+  "hints": [
+    "A pointer holds either `nullptr` or the address of an `int`. `*p` reads the int at that address, and that is only legal when `p` is not null. Test the *pointer* (`if (p)`), never the pointee (`if (*p)`), because `*p` is itself a dereference.",
+    "```cpp\nif (p == nullptr) return fallback;\nreturn *p;\n```",
+    "The conditional expression does it in one line:\n```cpp\nreturn p ? *p : fallback;\n```"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Longest Word by Reference",
+  "difficulty": "hard",
+  "hints": [
+    "After `longest_word` returns, the string your reference points to must still exist. Which strings survive the call: the ones inside `words`, or a local variable declared in the function body?",
+    "Do not copy anything. Keep `std::size_t best = 0;` as an *index* into `words`, update it in the loop when you find a strictly longer word, and `return words[best];` at the end.",
+    "```cpp\nconst std::string& longest_word(const std::vector<std::string>& words) {\n    std::size_t best = 0;\n    for (std::size_t i = 1; i < words.size(); ++i)\n        if (words[i].size() > words[best].size()) best = i;\n    return words[best];\n}\n```\n`>` not `>=`, so the first of equal-length words wins."
+  ]
+}

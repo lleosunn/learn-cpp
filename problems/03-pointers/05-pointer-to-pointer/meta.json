@@ -1,0 +1,9 @@
+{
+  "title": "Find and Hand Back a Pointer",
+  "difficulty": "hard",
+  "hints": [
+    "`int** out` is a pointer to the caller's `int*`. `*out` *is* the caller's variable; `out` is just your local copy of its address. Writing `out = ...` changes nothing the caller can see.",
+    "`out = &arr[i];` will not compile (an `int*` is not an `int**`), and that error is the compiler pointing at the bug. You need `*out = &arr[i];` or `*out = arr + i;`. Two more things: `out` itself may be null, so guard every write with `if (out)`; and set `*out = nullptr` *before* searching so a miss never leaves a stale pointer behind.",
+    "```cpp\nif (out) *out = nullptr;\nfor (std::size_t i = 0; i < n; ++i) {\n    if (arr[i] == target) {\n        if (out) *out = arr + i;\n        return true;\n    }\n}\nreturn false;\n```"
+  ]
+}

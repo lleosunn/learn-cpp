@@ -1,0 +1,1 @@
+{"title": "Pointers & arrays", "blurb": "A pointer is an address you can test for null, step through, and hand to someone else; a C array is just the address of its first element plus a size you must carry yourself."}

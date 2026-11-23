@@ -1,0 +1,9 @@
+{
+  "title": "Fraction with Operators",
+  "difficulty": "medium",
+  "hints": [
+    "Normalize in the constructor so every other function can assume it: if `den < 0`, flip the sign of both; then divide both by `std::gcd(num, den)` from `<numeric>` (it works on absolute values, so a negative numerator is fine). Because `std::gcd(0, 5) == 5`, `0/5` becomes `0/1` for free.",
+    "`a/b + c/d = (a*d + c*b) / (b*d)`. Build `Fraction(a.num() * b.den() + b.num() * a.den(), a.den() * b.den())` and let the constructor reduce it. Since every Fraction is normalized, `==` is just `a.num() == b.num() && a.den() == b.den()`.",
+    "```cpp\nstd::ostream& operator<<(std::ostream& os, const Fraction& f) {\n    return os << f.num() << '/' << f.den();\n}\n```\n`os << x` evaluates to `os` itself, so returning that expression is what lets `oss << a << \" \" << b` chain."
+  ]
+}

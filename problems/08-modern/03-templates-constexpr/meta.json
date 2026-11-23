@@ -1,0 +1,9 @@
+{
+  "title": "Generic and Compile-Time Functions",
+  "difficulty": "medium",
+  "hints": [
+    "Write each function for `int` first, then replace `int` with `T` and put `template <typename T>` in front. For `filter`, the second template parameter `Pred` is simply the type of whatever callable the caller passes; use it like a function: `if (keep(x)) out.push_back(x);`.",
+    "Use only `<` so strings and doubles work too. `max_of` is `*std::max_element(v.begin(), v.end())`; `min_max` is `std::minmax_element`, which returns a pair of iterators:\n```cpp\nauto [lo, hi] = std::minmax_element(v.begin(), v.end());\nreturn {*lo, *hi};\n```",
+    "Loops and locals are allowed in C++14+ `constexpr` functions; the starter only lacks the keyword and the loop:\n```cpp\nconstexpr long long ipow(long long base, int exp) {\n    long long r = 1;\n    while (exp-- > 0) r *= base;\n    return r;\n}\n```"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Grow a Heap Buffer Without Dangling",
+  "difficulty": "medium",
+  "hints": [
+    "Run the starter and read the AddressSanitizer report. The first stack trace is the line that touched dead memory; `freed by thread T0 here` shows the `delete[]` that killed it. Which pointer is still being read after you deleted it?",
+    "The order is fixed: allocate the new block, copy the first `min(old_n, new_n)` values across, and only *then* `delete[] old`. `std::min` lives in `<algorithm>` and wants both arguments of the same type, so keep sizes as `std::size_t`.",
+    "```cpp\nTracked* grow(Tracked* old, std::size_t old_n, std::size_t new_n) {\n    Tracked* p = new Tracked[new_n];\n    for (std::size_t i = 0; i < std::min(old_n, new_n); ++i) p[i].value = old[i].value;\n    delete[] old;\n    return p;\n}\n```"
+  ]
+}

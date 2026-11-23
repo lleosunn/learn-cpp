@@ -1,0 +1,9 @@
+{
+  "title": "Parsing with std::optional",
+  "difficulty": "medium",
+  "hints": [
+    "`parse_int`: walk the string by index. Note an optional leading `'-'`, require at least one character after it, then every remaining character must be `'0'`..`'9'`. Accumulate the magnitude in a `long long` and `return std::nullopt` as soon as it exceeds the `int` limit (`2147483647`, or `2147483648` when negative). Do not wait until the end: a 20-digit string overflows `long long` too, and signed overflow is undefined behavior.",
+    "`parse_kv`: find the first `'='`, reject if it is missing or at position 0, and let `parse_int` judge the rest. `\"x=1=2\"` fails on its own because `parse_int(\"1=2\")` fails.\n```cpp\nauto eq = line.find('=');\nif (eq == std::string::npos || eq == 0) return std::nullopt;\nauto v = parse_int(line.substr(eq + 1));\nif (!v) return std::nullopt;\nreturn std::pair{line.substr(0, eq), *v};\n```",
+    "`parse_config`: a map, a loop, and the if-with-initializer idiom. Assigning through `cfg[k]` gives you \"later wins\" for free.\n```cpp\nstd::map<std::string, int> cfg;\nfor (const auto& line : lines)\n    if (auto kv = parse_kv(line)) {\n        auto [k, v] = *kv;\n        cfg[k] = v;\n    }\nreturn cfg;\n```"
+  ]
+}

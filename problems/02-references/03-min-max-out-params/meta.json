@@ -1,0 +1,9 @@
+{
+  "title": "Min and Max via Out-Params",
+  "difficulty": "medium",
+  "hints": [
+    "Start with `lo = hi = v[0];` and loop from index 1 with `std::size_t i = 1`. `std::min` and `std::max` live in `<algorithm>`.",
+    "Check `v.empty()` and `return false;` *before* any assignment to `lo` or `hi`. Initializing them to `INT_MAX` / `INT_MIN` up front is fine math but writes the outputs even for empty input, which the tests catch.",
+    "```cpp\nbool min_max(const std::vector<int>& v, int& lo, int& hi) {\n    if (v.empty()) return false;\n    lo = hi = v[0];\n    for (std::size_t i = 1; i < v.size(); ++i) {\n        lo = std::min(lo, v[i]);\n        hi = std::max(hi, v[i]);\n    }\n    return true;\n}\n```"
+  ]
+}

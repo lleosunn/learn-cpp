@@ -1,0 +1,9 @@
+{
+  "title": "Split, Join, Upper",
+  "difficulty": "easy",
+  "hints": [
+    "`split`: `s.find(delim, start)` returns the index of the next delimiter at or after `start`, or `std::string::npos` when there is none. `s.substr(start, len)` copies out a piece. Loop while a delimiter is found, then push the final piece after the loop, even if it is empty.",
+    "`join`: start with an empty `std::string` and `+=` each part; add `sep` before every part except the first (`if (i) out += sep;`). `to_upper` takes `s` by value, so you already own a copy and can mutate it with `for (char& c : s)`.",
+    "```cpp\nstd::vector<std::string> split(const std::string& s, char delim) {\n    std::vector<std::string> out;\n    std::size_t start = 0, pos;\n    while ((pos = s.find(delim, start)) != std::string::npos) {\n        out.push_back(s.substr(start, pos - start));\n        start = pos + 1;\n    }\n    out.push_back(s.substr(start));\n    return out;\n}\n// to_upper: cast through unsigned char before calling std::toupper\nfor (char& c : s) c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));\n```"
+  ]
+}

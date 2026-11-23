@@ -1,0 +1,9 @@
+{
+  "title": "Word Frequency and Top-K",
+  "difficulty": "medium",
+  "hints": [
+    "`word_counts` is one line per word: `++counts[w];`. On a key it has never seen, `std::map::operator[]` inserts the key with a value-initialized `int` (that is `0`), then returns a reference to it, so `++` turns it into `1`.",
+    "A `std::map` is always sorted by key, so you cannot sort it by count. Copy it into a `std::vector<std::pair<std::string, int>>` (the vector's range constructor accepts `counts.begin(), counts.end()`), `std::sort` that with a lambda comparator, then `v.resize(std::min(k, v.size()))` to keep the top `k`.",
+    "The comparator must say \"a goes before b\" with a strict ordering: higher count first, and on a tie, smaller word first.\n\n```cpp\nstd::vector<std::pair<std::string, int>> v(counts.begin(), counts.end());\nstd::sort(v.begin(), v.end(), [](const auto& a, const auto& b) {\n    if (a.second != b.second) return a.second > b.second;\n    return a.first < b.first;\n});\nv.resize(std::min(k, v.size()));\nreturn v;\n```"
+  ]
+}

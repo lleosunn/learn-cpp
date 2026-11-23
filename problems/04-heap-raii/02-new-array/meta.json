@@ -1,0 +1,9 @@
+{
+  "title": "Allocate an Array of Objects",
+  "difficulty": "easy",
+  "hints": [
+    "`new Tracked[n]` allocates `n` objects in a row and default-constructs every one of them (`value == 0`), returning a pointer to the first. Index it like an array: `p[i]`.",
+    "You cannot pass per-element constructor arguments to `new[]`. Construct first, then loop and assign `p[i].value`. Mind the types: `i` is `std::size_t` and `value` is `int`, so write `first_value + static_cast<int>(i)`. Release with `delete[]`, never `delete`.",
+    "```cpp\nTracked* make_tracked_array(std::size_t n, int first_value) {\n    Tracked* p = new Tracked[n];\n    for (std::size_t i = 0; i < n; ++i) p[i].value = first_value + static_cast<int>(i);\n    return p;\n}\nvoid free_tracked_array(Tracked* p) { delete[] p; }\n```"
+  ]
+}

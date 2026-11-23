@@ -1,0 +1,9 @@
+{
+  "title": "Swap via Pointers",
+  "difficulty": "easy",
+  "hints": [
+    "`a` and `b` are local copies of two addresses. `a = b;` re-points *your copy*; the caller's `x` and `y` do not move. To change the caller's ints you have to go through the pointers.",
+    "Read and write the pointees with `*a` and `*b`: `int t = *a;` copies x's value out, `*a = *b;` writes y's value into x. And check both pointers for null before any `*`.",
+    "```cpp\nif (!a || !b) return false;\nint t = *a;\n*a = *b;\n*b = t;\nreturn true;\n```"
+  ]
+}

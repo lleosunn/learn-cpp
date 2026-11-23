@@ -1,0 +1,9 @@
+{
+  "title": "strlen and strchr by Hand",
+  "difficulty": "medium",
+  "hints": [
+    "Stop when `*p == '\\0'`. For `c_strlen`, keep the original `s` where it is and walk a copy `p` forward with `++p`.",
+    "Length is the distance between two pointers: `p - s`. That is a signed `std::ptrdiff_t`, so cast it: `static_cast<std::size_t>(p - s)`. For `find_char`, test for `c` *before* testing for the terminator, or `'\\0'` can never be found.",
+    "```cpp\nstd::size_t c_strlen(const char* s) {\n    const char* p = s;\n    while (*p != '\\0') ++p;\n    return static_cast<std::size_t>(p - s);\n}\n\nconst char* find_char(const char* s, char c) {\n    for (;; ++s) {\n        if (*s == c) return s;\n        if (*s == '\\0') return nullptr;\n    }\n}\n```"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "title": "ScopedTracked",
+  "difficulty": "medium",
+  "hints": [
+    "Where must `delete p_` go so that it runs however the scope ends: fall-through, early `return`, `break`, or an exception? There is exactly one member function the compiler calls for you at the closing brace.",
+    "`~ScopedTracked() { delete p_; }`. Because `delete nullptr` is a no-op, `release()` only has to hand the pointer out and set `p_ = nullptr`; the destructor then has nothing left to do. Forbid copying with `= delete` on the copy constructor and copy assignment, or two wrappers end up deleting the same object.",
+    "```cpp\nclass ScopedTracked {\npublic:\n    explicit ScopedTracked(int v) : p_(new Tracked(v)) {}\n    ~ScopedTracked() { delete p_; }\n    ScopedTracked(const ScopedTracked&) = delete;\n    ScopedTracked& operator=(const ScopedTracked&) = delete;\n    Tracked& get() { return *p_; }\n    const Tracked& get() const { return *p_; }\n    Tracked* release() { Tracked* t = p_; p_ = nullptr; return t; }\nprivate:\n    Tracked* p_;\n};\n```"
+  ]
+}
