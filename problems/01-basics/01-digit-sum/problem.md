@@ -54,4 +54,4 @@ int digit_sum(int n);
 | `digit_sum(-99)` | `18` |
 | `digit_sum(0)` | `0` |
 
-Click **Run tests** (⌘↵) whenever you want feedback. The starter compiles and returns `0`, so you will see exactly which cases fail. The **Tests** tab shows how your function gets called.
+Click **Run** whenever you want feedback (**Submit**, ⌘↵, runs the same tests and also records the attempt). The starter compiles and returns `0`, so you will see exactly which cases fail. The **Tests** tab shows how your function gets called.

@@ -71,4 +71,6 @@ struct Tracked {
 | `sum_values({-5, 5})` | `0` | `0` |
 | 1000 elements with values `1..1000` | `500500` | `0` |
 
+The braces in the table stand for a vector built before the call, which is how the tests do it. A literal `sum_values({1, 2, 3})` would report 3 copies even with a perfect `sum_values`, because building the temporary vector copies each element out of the initializer list.
+
 The starter compiles and returns the right numbers but makes 6 copies for a 3-element input. Run it first and see which checks fail.

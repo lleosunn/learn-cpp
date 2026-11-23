@@ -21,7 +21,7 @@ What makes it "unique":
 
 - **One owner.** Copying is a compile error (`unique_ptr(const unique_ptr&) = delete`). The next problem covers how ownership moves between owners.
 - **It can be empty.** A default-constructed `unique_ptr` holds `nullptr`; `if (p)` tests that. Dereferencing an empty one crashes exactly like a null raw pointer.
-- **`reset` and assignment free the old object.** `p.reset()` deletes now and leaves `p` empty. `p = std::make_unique<T>(...)` deletes the old object, then takes the new one.
+- **`reset` and assignment free the old object.** `p.reset()` deletes now and leaves `p` empty. `p = std::make_unique<T>(...)` builds the new object, takes it, then deletes the old one.
 - **Zero overhead.** `sizeof(std::unique_ptr<T>) == sizeof(T*)`, and `->` compiles to a plain pointer access.
 
 Why `make_unique` instead of `new`? `std::unique_ptr<T> p(new T(...))` works, but the moment `new` appears in your code you are holding a raw pointer for however many lines pass before the wrapper takes it. If anything throws in between, it leaks. `make_unique` allocates and wraps in a single expression, so there is no window. Rule: if you type `new`, stop and ask why.

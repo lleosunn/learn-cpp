@@ -38,7 +38,7 @@ public:
             o.data_ = nullptr;
             o.n_ = 0;
         }
-        return *this;        // (equivalent: swap both members with o and let o's destructor clean up)
+        return *this;        // (alternative: move-and-swap through a temporary; a bare swap with o would leave o non-empty)
     }
 
     ~IntBuffer() { delete[] data_; }   // delete[] nullptr is a no-op, so a moved-from object is safe

@@ -30,7 +30,7 @@ for (Node* cur = head_.get(); cur; cur = cur->next.get()) { /* cur->value */ }
 
 Do not write `auto n = head_;` (a copy; will not compile) or `auto n = std::move(head_);` while walking (you just detached the whole list from the object).
 
-**Re-linking is moving.** Inserting at the front is three moves:
+**Re-linking is moving.** Inserting at the front is two moves:
 
 ```cpp
 auto n = std::make_unique<Node>();
@@ -43,7 +43,7 @@ Popping the front is one: `head_ = std::move(head_->next);`. The right-hand side
 
 `reverse()` is the same idea in a loop: peel the head off, point it at the reversed prefix, repeat. Draw it before you type it.
 
-**One real limit.** Destruction is recursive: `~Node` → `~unique_ptr<Node>` → `~Node` → …, one stack frame per node. A thousand nodes is fine; around a million the stack overflows. The fix is a destructor that unlinks iteratively:
+**One real limit.** Destruction is recursive: `~Node` → `~unique_ptr<Node>` → `~Node` → …, one stack frame per node. A thousand nodes is fine. In this course's unoptimized sanitizer build the stack overflows somewhere between 20,000 and 50,000 nodes; an optimized build gets to a few hundred thousand. The fix is a destructor that unlinks iteratively:
 
 ```cpp
 ~List() { while (head_) head_ = std::move(head_->next); }
@@ -53,7 +53,7 @@ But the moment you declare that destructor, the compiler stops generating the mo
 
 ## Coming from Python
 
-- `class Node: next = None` plus the GC gives you this structure for free, and a cycle (`a.next = b; b.next = a`) is still collected. Here a cycle cannot even be expressed: a `unique_ptr` chain is acyclic by construction.
+- `class Node: next = None` plus the GC gives you this structure for free, and a cycle (`a.next = b; b.next = a`) is still collected. Here a cycle takes deliberate effort (moving a node's own owner into its `next`), and if you build one nothing ever frees it: a leak, like the `shared_ptr` cycle of problem 3.
 - `b = a` on a Python list aliases. `List b = a;` here is a compile error, which is the honest answer when a class owns heap memory; `List b = std::move(a);` is the explicit transfer.
 - There is no equivalent of `std::move`, and no equivalent of the rule of zero either, because Python never asked you to write `__del__` or `__copy__` for ordinary classes. C++ asks only when you hold a raw resource; hold it through `unique_ptr` and you are back to writing nothing.
 

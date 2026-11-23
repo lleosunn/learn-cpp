@@ -55,7 +55,7 @@ Two tools for the body: the conditional operator `cond ? a : b` is Python's `a i
 - One Python function handles ints and floats because `<` works on both at runtime. C++ needs one overload per type (or a template).
 - `clamp(x, hi=5)` has no equivalent. Arguments are positional and defaults fill from the right.
 - The *static* type picks the overload. `clamp_value(2.5)` calls the `double` version even if you store the result in an `int`.
-- With only the `int` overload defined, `clamp_value(2.5)` still compiles and silently truncates `2.5` to `2` under the flags used here. A missing overload is not an error; it is a quietly wrong answer.
+- With only the `int` overload defined, `clamp_value(2.5)` still compiles and truncates `2.5` to `2`. Clang warns here only because `2.5` is a literal (`-Wliteral-conversion`); pass a `double` variable instead and the same truncation happens with no diagnostic at all under the flags used here. A missing overload is not an error; it is a quietly wrong answer.
 
 ## Your task
 
@@ -76,4 +76,4 @@ double clamp_value(double x, double lo = 0.0, double hi = 1.0);
 | `clamp_value(-0.5)` | `0.0` |
 | `clamp_value(0.25, 0.5, 0.75)` | `0.5` |
 
-The starter has only the `int` overload and returns `x` unchanged. Run it first: `clamp_value(2.5)` compiles anyway and yields `2`.
+The starter has only the `int` overload and returns `x` unchanged. Run it first: `clamp_value(2.5)` compiles anyway (with a `-Wliteral-conversion` warning) and yields `2`.

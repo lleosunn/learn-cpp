@@ -4,6 +4,6 @@
   "hints": [
     "A `const` member can only be given a value in the constructor's **member initializer list**, never by assignment in the body:\n```cpp\nAccount(std::string owner, long long cents = 0)\n    : owner_(std::move(owner)), cents_(cents) { ++live_; }\n```\nKeep the list in the same order as the member declarations, or clang warns with `-Wreorder`.",
     "The destructor undoes what the constructor did to the counter: `~Account() { --live_; }`, and `live()` just returns `live_`. `deposit` ignores `cents <= 0`. `withdraw` returns `false` and changes nothing unless `0 < cents <= cents_`.",
-    "`static int live_;` inside the class is only a *declaration*. Give it exactly one definition, outside the class in the same file:\n```cpp\nint Account::live_ = 0;\n```\nor, in C++17, change the declaration itself to `inline static int live_ = 0;`. Without a definition the linker fails with `undefined symbol: Account::live_`."
+    "`static int live_;` inside the class is only a *declaration*. Give it exactly one definition, outside the class in the same file:\n```cpp\nint Account::live_ = 0;\n```\nor, in C++17, change the declaration itself to `inline static int live_ = 0;`. Without a definition the linker fails with `Undefined symbols ... Account::live_`."
   ]
 }

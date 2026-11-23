@@ -39,7 +39,7 @@ How to read it:
 - The **first stack trace** is where the bad access happened. Find the first frame in `solution.cpp`: line 14 is the crime scene.
 - **`freed by`** is where that memory was deleted: line 12. It ran before line 14, so you freed too early.
 - **`previously allocated by`** is where the block came from, useful when you are not sure which pointer you are even looking at.
-- "16 bytes inside of 28-byte region" is the array cookie from problem 2 showing up: 16 bytes of count, then three 4-byte `Tracked`.
+- "16 bytes inside of 28-byte region" is the array cookie from problem 2 showing up: a 16-byte header (element size and element count, 8 bytes each on this arm64 Mac), then three 4-byte `Tracked`.
 
 Two relatives of this bug, both of which ASan names just as precisely:
 
@@ -67,7 +67,7 @@ struct Tracked {
 };
 ```
 
-The tests use its counters because macOS has no leak detector.
+The tests use its counters because Apple's clang has no LeakSanitizer.
 
 Return a fresh `new[]` block of `new_n` `Tracked`, with the first `min(old_n, new_n)` values copied from `old` and the rest left at `0`; then release `old`. `old` may be `nullptr` when `old_n == 0`.
 

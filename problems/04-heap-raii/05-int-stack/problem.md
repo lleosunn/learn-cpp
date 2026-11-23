@@ -19,7 +19,7 @@ data_ --> [ 3 | 7 | 1 | ? | ? | ? | ? | ? ]     heap block from new int[cap_]
 
 **Why double?** If you grew by one slot per push, the n-th push would copy n values and n pushes would copy about n²/2 values in total. Doubling (`0 → 1 → 2 → 4 → 8 → ...`) means a push that copies k values is followed by k cheap pushes, so the total copy work for n pushes stays under 2n. That is "amortized O(1)". It is also why `pop` must not shrink the block: if a pop at a boundary freed half, a push/pop/push/pop sequence at that boundary would copy on every call and the argument collapses.
 
-**The destructor** is `delete[] data_`. Be honest about one thing: nothing here can observe whether you wrote it. `int` has no destructor to count, and macOS has no leak detector. Write it anyway; the point of this chapter is that the habit precedes the tool that checks it. Chapter 6 introduces `std::vector`, which is this class done properly. After that you will never write `IntStack` again, but you will know exactly what `push_back` costs and why `capacity()` exists.
+**The destructor** is `delete[] data_`. Be honest about one thing: nothing here can observe whether you wrote it. `int` has no destructor to count, and Apple's clang has no LeakSanitizer. Write it anyway; the point of this chapter is that the habit precedes the tool that checks it. Chapter 6 introduces `std::vector`, which is this class done properly. After that you will never write `IntStack` again, but you will know exactly what `push_back` costs and why `capacity()` exists.
 
 Two C++ details:
 

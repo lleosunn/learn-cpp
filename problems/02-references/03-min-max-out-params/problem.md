@@ -33,7 +33,7 @@ Why this idiom exists when `std::pair` and `std::optional` do too (chapters 6 an
 Two small things the solution needs:
 
 - `lo = hi = v[0];` assigns right to left, like Python's `lo = hi = v[0]`.
-- Index with `std::size_t`, the unsigned type `v.size()` returns. Comparing a signed `int i` against `v.size()` produces a warning under `-Wall`, and the warning is right: mixing signed and unsigned comparisons is a classic bug source.
+- Index with `std::size_t`, the unsigned type `v.size()` returns. Comparing a signed `int i` against `v.size()` produces a `-Wsign-compare` warning (part of `-Wextra` in clang, `-Wall` in GCC), and the warning is right: mixing signed and unsigned comparisons is a classic bug source.
 
 ## Coming from Python
 

@@ -35,7 +35,7 @@ Two details separate a correct implementation from a plausible one:
 1. **`out` may be null.** The contract lets the caller pass `nullptr` to say "I only want the bool". Writing `*out = ...` through a null `out` is a store to address 0 (UBSan reports "store to null pointer"). Check `out` before every write, including the reset.
 2. **Reset `*out` on the not-found path.** If the caller's `found` held a pointer from a previous call and you return `false` without touching `*out`, the caller now has `false` plus a stale pointer that still looks valid. Set `*out = nullptr` first, then search. An output parameter should always leave the caller in a known state.
 
-This is the "why" of output parameters: when a function must return two things (found or not, and where), C-style code returns one and writes the other through a pointer the caller supplies. You will see `T**` and `T*&` in C APIs and older C++ constantly. Chapter 8's `std::optional` is the modern replacement.
+This is the "why" of output parameters: when a function must return two things (found or not, and where), C-style code returns one and writes the other through a pointer the caller supplies. You will see `T**` in C APIs and `T*&` in older C++ constantly. Chapter 8's `std::optional` is the modern replacement.
 
 ## Coming from Python
 

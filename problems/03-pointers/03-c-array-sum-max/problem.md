@@ -25,7 +25,7 @@ long long sum_array(const int* arr, std::size_t n);
 sum_array(a, 3);   // a decays to &a[0]; the 3 must be passed by hand
 ```
 
-That is the "why" behind the `n` parameter. Inside the function there is no `len(arr)`. `sizeof(arr)` is the size of a *pointer* (8 bytes), not the array, and clang warns if you try it (`-Wsizeof-array-argument`). The size has to travel next to the pointer, and the function has to trust it.
+That is the "why" behind the `n` parameter. Inside the function there is no `len(arr)`. `sizeof(arr)` is the size of a *pointer* (8 bytes), not the array. Clang warns about that (`-Wsizeof-array-argument`) only when the parameter is written with array syntax, `const int arr[]`; with `const int* arr` it stays silent. The size has to travel next to the pointer, and the function has to trust it.
 
 Indexing is pointer arithmetic in disguise. `arr[i]` is defined as `*(arr + i)`, and `arr + i` means "advance by `i` ints" (the compiler scales by `sizeof(int)` for you). So `arr + 1` is the address of `a[1]`, and `&arr[1]` is the same address written differently. You need that when a function should return *which element*, not just its value.
 

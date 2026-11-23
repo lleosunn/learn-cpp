@@ -34,7 +34,7 @@ std::ostream& operator<<(std::ostream& os, const Fraction& f) {
 }
 ```
 
-Why return the stream? `os << a << b` parses as `(os << a) << b`. The inner call has to produce something that `<< b` can be applied to, and that something is the stream itself. Forget the `return`, or return `void`, and chaining is a compile error. The test streams into a `std::ostringstream`, which collects output in a string you can inspect with `.str()`; the same operator works for `std::cout` and for files.
+Why return the stream? `os << a << b` parses as `(os << a) << b`. The inner call has to produce something that `<< b` can be applied to, and that something is the stream itself. Return `void` instead and chaining is a compile error. Forget the `return` statement and it is worse: the code still compiles (clang only warns, `-Wreturn-type`) and is undefined behavior at run time; UBSan aborts with `execution reached the end of a value-returning function without returning a value`. The test streams into a `std::ostringstream`, which collects output in a string you can inspect with `.str()`; the same operator works for `std::cout` and for files.
 
 ## Coming from Python
 

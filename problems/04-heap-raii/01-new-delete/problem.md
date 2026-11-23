@@ -51,7 +51,7 @@ If a test aborts with an AddressSanitizer report, the first stack trace is where
 
 ## Your task
 
-`Tracked` is already defined for you. It counts its own lifetime events, so the tests can prove you did not leak without a leak detector (macOS has none):
+`Tracked` is already defined for you. It counts its own lifetime events, so the tests can prove you did not leak without a leak detector (Apple's clang ships no LeakSanitizer):
 
 ```cpp
 struct Tracked {

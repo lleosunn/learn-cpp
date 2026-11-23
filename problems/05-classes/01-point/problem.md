@@ -38,7 +38,7 @@ Things to notice:
 - **Members are in scope inside member functions.** A bare `x` means "this object's `x`". The current object is reachable through the pointer `this` (`this->x`), but you almost never need to write it.
 - **`const` member functions.** The `const` after `dist_to`'s parameter list is a promise: this method does not modify `*this`. Inside a `const` method, every member is read-only, and trying to assign to one is a compile error.
 
-Why `const` matters: you normally pass objects as `const Point&` (chapter 2). On a `const` reference you may only call `const` methods. Forget the `const` on `dist_to` and nobody who received a `const Point&` can measure a distance; they get `'this' argument ... discards qualifiers`. The rule: if a method does not change the object, mark it `const`.
+Why `const` matters: you normally pass objects as `const Point&` (chapter 2). On a `const` reference you may only call `const` methods. Forget the `const` on `dist_to` and nobody who received a `const Point&` can measure a distance; they get `'this' argument to member function 'dist_to' has type 'const Point', but function is not marked const` (GCC words the same error as `discards qualifiers`). The rule: if a method does not change the object, mark it `const`.
 
 A pitfall the starter demonstrates on purpose: inside a constructor *body*, `x = x;` assigns the parameter to itself. The member keeps its default of 0, and clang tells you so with `-Wself-assign`. Run the starter before you edit it and read that warning. The initializer list has no such ambiguity, which is one more reason to prefer it.
 

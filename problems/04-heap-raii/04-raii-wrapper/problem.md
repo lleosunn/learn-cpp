@@ -56,7 +56,7 @@ Two details complete the pattern:
 
 ## Your task
 
-`Tracked` is already defined for you (`value`, counters `alive`, `constructed`, `destroyed`, `copies`, `moves`, and `reset()`). The tests use its counters because macOS has no leak detector.
+`Tracked` is already defined for you (`value`, counters `alive`, `constructed`, `destroyed`, `copies`, `moves`, and `reset()`). The tests use its counters because Apple's clang has no LeakSanitizer.
 
 Complete `ScopedTracked`. The constructor already allocates. Make the destructor release, make copying a compile error, and implement `release()` so the wrapper gives up ownership and the caller becomes responsible for the `delete`.
 

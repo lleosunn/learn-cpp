@@ -4,6 +4,6 @@
   "hints": [
     "`make_adder`: capture `n` by value and return the lambda directly; the conversion to `std::function<int(int)>` is automatic.\n```cpp\nreturn [n](int x) { return x + n; };\n```",
     "`make_counter` needs state that lives inside the closure and changes on every call: an init-capture plus `mutable`. Without `mutable` the compiler refuses to modify a by-value capture.\n```cpp\nreturn [count = 0]() mutable { return ++count; };\n```",
-    "`make_appender`: the vector belongs to the caller and outlives the closure, so capture it by reference; capture `value` by copy. `[=]` would silently copy the whole vector and push into the copy, leaving the caller's `sink` empty.\n```cpp\nreturn [&sink, value]() { sink.push_back(value); };\n```"
+    "`make_appender`: the vector belongs to the caller and outlives the closure, so capture it by reference; capture `value` by copy. `[=]` would copy the whole vector into the closure: `push_back` on that copy then fails to compile (by-value captures are `const` unless the lambda is `mutable`), and with `mutable` it compiles and silently fills the private copy, leaving the caller's `sink` empty.\n```cpp\nreturn [&sink, value]() { sink.push_back(value); };\n```"
   ]
 }

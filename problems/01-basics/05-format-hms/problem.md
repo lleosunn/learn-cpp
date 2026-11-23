@@ -19,7 +19,7 @@ std::string u = "a" + "b";   // compile error: const char* + const char*
 std::string v = "0" + 5;     // compiles (clang warns): pointer arithmetic, 5 bytes past "0"
 ```
 
-The last line is the one that hurts. `"0" + 5` is a pointer into memory you do not own; reading through it is a bug ASan reports as a global-buffer-overflow, and without ASan it prints garbage or crashes. Build a `std::string` first, then concatenate.
+The last line is the one that hurts. `"0" + 5` is a pointer into memory you do not own. In this course UBSan stops the program right there (`index 5 out of bounds for type 'const char[2]'`); without a sanitizer it prints garbage or crashes. Build a `std::string` first, then concatenate.
 
 **Numbers to text.** There are no f-strings in C++17 (C++20's `std::format` comes close, but it is not available in this build). `std::to_string(42)` gives `"42"`. Zero-padding you write yourself; `std::ostringstream` with `std::setw` also works but is more machinery than this problem needs.
 

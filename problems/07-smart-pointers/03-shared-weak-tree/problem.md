@@ -47,7 +47,7 @@ Rule of thumb: in an ownership diagram, arrows pointing *down* are `shared_ptr` 
 
 - CPython also refcounts, and also cannot free a cycle by counting. It has a second collector that periodically walks the heap looking for unreachable cycles. C++ has nothing like it: a `shared_ptr` cycle is a leak until the process exits.
 - `weakref.ref(obj)()` returns the object or `None`; `weak.lock()` returns a `shared_ptr` or an empty one. Same idea, except in C++ the result is a real owner for as long as you hold it.
-- `sys.getrefcount(x)` and `x.use_count()` are both off by one for the same reason: the thing you are inspecting with is itself a reference.
+- `sys.getrefcount(x)` reads one too high because the call's own argument is a temporary reference. `use_count()` has no such artifact: it counts every `shared_ptr` that currently owns the object, including the one you call it on and any `lock()` result that is still alive.
 
 ## Your task
 

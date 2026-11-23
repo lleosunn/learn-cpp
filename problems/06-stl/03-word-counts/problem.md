@@ -4,7 +4,7 @@
 
 ## The lesson
 
-C++ has two dictionaries. `std::map<K, V>` is a balanced tree: iteration is always sorted by key, lookups are O(log n). `std::unordered_map<K, V>` is a hash table like Python's `dict`: O(1) lookups, but iteration order is unspecified and changes between runs and compilers. Python's `dict` remembers insertion order; neither C++ map does. When output order matters, use `std::map` or sort explicitly.
+C++ has two dictionaries. `std::map<K, V>` is a balanced tree: iteration is always sorted by key, lookups are O(log n). `std::unordered_map<K, V>` is a hash table like Python's `dict`: O(1) lookups, but iteration order is unspecified: it differs between standard libraries and shifts as the table grows. Python's `dict` remembers insertion order; neither C++ map does. When output order matters, use `std::map` or sort explicitly.
 
 | Python `d` | C++ `std::map<std::string, int> m` |
 |---|---|
@@ -38,7 +38,7 @@ That is Python's `sorted(items, key=lambda kv: (-kv[1], kv[0]))`, written as a t
 
 ## Coming from Python
 
-- No insertion order. `std::map` iterates in key order; `std::unordered_map` in no useful order. Tests that depend on `unordered_map` order are flaky by construction.
+- No insertion order. `std::map` iterates in key order; `std::unordered_map` in no useful order. Tests that depend on `unordered_map` order break as soon as the standard library or the insertion history changes.
 - `pair.first` / `pair.second` are the C++ spelling of a 2-tuple. `std::make_pair("a", 1)` or brace-init `{"a", 1}` builds one.
 - `std::sort` sorts in place and returns nothing. There is no `sorted()` that returns a copy; copy first, then sort.
 - `std::min(k, v.size())` requires both arguments to have the same type. `k` is `std::size_t` here for exactly that reason.

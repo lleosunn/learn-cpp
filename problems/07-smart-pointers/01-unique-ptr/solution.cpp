@@ -9,5 +9,5 @@ int value_of(const std::unique_ptr<Tracked>& p) {
 }
 
 void replace_with(std::unique_ptr<Tracked>& p, int v) {
-    p = std::make_unique<Tracked>(v);      // assignment deletes the old object, then takes the new one
+    p = std::make_unique<Tracked>(v);      // assignment takes the new object, then deletes the old one
 }

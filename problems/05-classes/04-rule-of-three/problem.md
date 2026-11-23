@@ -31,7 +31,7 @@ IntBuffer& operator=(const IntBuffer& o) {
 }
 ```
 
-Assignment returns `IntBuffer&`, a reference to `*this`, so that `a = b = c` works: it parses as `a = (b = c)`, and the inner assignment must yield something assignable.
+Assignment returns `IntBuffer&`, a reference to `*this`, so that `a = b = c` works: it parses as `a = (b = c)`, and the inner assignment must yield something the outer one can copy from.
 
 **Two `operator[]`.** Indexing through a `const IntBuffer&` must still be allowed, but must not allow writes. So there are two overloads: the non-`const` one returns `int&` (you can assign through it), the `const` one returns `const int&`. The compiler picks based on whether the object is `const`. Without the `const` overload, `cr[1]` on a `const IntBuffer& cr` is a compile error.
 
@@ -42,7 +42,7 @@ Assignment returns `IntBuffer&`, a reference to `*this`, so that `a = b = c` wor
 - In Python, `b = a` makes an alias, `copy.copy` is shallow, `copy.deepcopy` is deep. In C++, `=` defaults to a shallow memberwise copy, which for a pointer member is Python's aliasing behavior plus a double free when both objects die.
 - `__copy__` and `__deepcopy__` are opt-in hooks that `copy` calls. The C++ copy constructor and copy assignment are called implicitly on every `=`, every pass-by-value, every return-by-value.
 - Python's reference counting keeps the shared list alive until the last alias is gone. Here nobody is counting; ownership must be explicit.
-- In production C++ you would hold `std::vector<int>` and write none of these three functions: the "rule of zero" (chapter 6). This problem exists so you understand what `vector` is doing on your behalf.
+- In production C++ you would hold `std::vector<int>` (chapter 6) and write none of these three functions: the "rule of zero" (chapter 7, problem 5). This problem exists so you understand what `vector` is doing on your behalf.
 
 ## Your task
 

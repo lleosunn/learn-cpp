@@ -2,7 +2,7 @@
   "title": "Singly Linked List with unique_ptr",
   "difficulty": "hard",
   "hints": [
-    "push_front is three moves: the new node takes the old chain, then the list takes the new node.\n```cpp\nauto n = std::make_unique<Node>();\nn->value = v;\nn->next = std::move(head_);\nhead_ = std::move(n);\n++size_;\n```",
+    "push_front is two moves: the new node takes the old chain, then the list takes the new node.\n```cpp\nauto n = std::make_unique<Node>();\nn->value = v;\nn->next = std::move(head_);\nhead_ = std::move(n);\n++size_;\n```",
     "Traverse with a raw, non-owning pointer and never copy a `unique_ptr`:\n```cpp\nNode* cur = head_.get();\nwhile (cur) { /* cur->value */ cur = cur->next.get(); }\n```\nFor `push_back`, walk until `cur->next` is empty and move the new node into that slot (or into `head_` if the list is empty). For `pop_front`: `head_ = std::move(head_->next);` frees the old head.",
     "reverse: peel the head off, point it at the reversed prefix, repeat.\n```cpp\nstd::unique_ptr<Node> prev;\nwhile (head_) {\n    auto next = std::move(head_->next);   // detach the rest\n    head_->next = std::move(prev);        // old head now points at the reversed part\n    prev = std::move(head_);              // reversed part grows by one\n    head_ = std::move(next);              // advance\n}\nhead_ = std::move(prev);\n```"
   ]

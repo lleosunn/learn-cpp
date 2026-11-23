@@ -29,7 +29,7 @@ Why this matters: the `delete`/`delete[]` mismatch and the off-by-one at `p[n]` 
 
 ## Your task
 
-`Tracked` is already defined for you (same interface as problem 1; the tests use its counters because macOS has no leak detector):
+`Tracked` is already defined for you (same interface as problem 1; the tests use its counters because Apple's clang has no LeakSanitizer):
 
 ```cpp
 struct Tracked {

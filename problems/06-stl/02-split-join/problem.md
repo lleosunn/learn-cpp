@@ -27,7 +27,7 @@ if (pos == std::string::npos) { /* not found */ }
 
 **Splitting is a cursor loop.** Keep a `start` index, find the next delimiter from there, copy `[start, pos)` out with `substr`, move `start` past the delimiter. When `find` says `npos`, the piece from `start` to the end is the last one, and it is pushed even when empty. That last push is what makes `split("", ',')` return `{""}` and `split(",", ',')` return `{"", ""}`, exactly like Python's `"".split(",")` and `",".split(",")`.
 
-**Characters are small integers.** `char` is a 1-byte integer type, and `<cctype>` functions like `std::toupper` take an `int` that must be in the range of `unsigned char` (0 to 255). On most platforms plain `char` is signed, so a byte like `0xE9` (part of "é" in UTF-8) is `-23`. Passing a negative to `std::toupper` is undefined behavior. The idiom is to cast through `unsigned char` on the way in and back to `char` on the way out:
+**Characters are small integers.** `char` is a 1-byte integer type, and `<cctype>` functions like `std::toupper` take an `int` that must be in the range of `unsigned char` (0 to 255). On most platforms plain `char` is signed, so a byte like `0xE9` ("é" in Latin-1) is `-23`. Passing a negative to `std::toupper` is undefined behavior. The idiom is to cast through `unsigned char` on the way in and back to `char` on the way out:
 
 ```cpp
 c = static_cast<char>(std::toupper(static_cast<unsigned char>(c)));
