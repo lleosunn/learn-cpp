@@ -12,7 +12,8 @@ python3 learn.py
 That starts a server on http://127.0.0.1:8000 and opens your browser. Needs only Python 3 and `clang++`
 (on macOS: `xcode-select --install`). No pip packages, no cmake.
 
-Each problem is a short lesson plus a function or class to implement. **Submit** (⌘↵) compiles your code with
+Each problem is a short lesson plus a function or class to implement. **Run** tests your code without recording
+anything; **Submit** (⌘↵) also counts the attempt and can mark the problem solved. Both compile your code with
 `clang++ -std=c++17 -Wall -Wextra -fsanitize=address,undefined`, so memory bugs and undefined behavior show up as
 readable reports instead of silent garbage. Hints are collapsed sections under the question; the reference solution is behind a two-click
 reveal. The **Playground** runs any program with a `main()`.

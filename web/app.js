@@ -68,12 +68,15 @@ function renderNav() {
   if (state.mode === "playground" || state.problem) renderHeader();
 }
 function renderHeader() {
+  $("#q-check").classList.add("hidden");
   if (state.mode === "playground") { $("#q-title").textContent = "Playground"; $("#q-pills").innerHTML = ""; return; }
   const p = state.problem;
   const ch = state.catalog.chapters.find((c) => c.problems.some((q) => q.id === p.id));
   const solved = ch.problems.find((q) => q.id === p.id).status === "solved";
-  $("#q-title").innerHTML = esc(p.meta.title) + (solved ? `<span class="solved-badge">Solved ${icon("check")}</span>` : "");
-  $("#q-pills").innerHTML = `<span class="pill ${esc(p.meta.difficulty)}">${esc(p.meta.difficulty)}</span><span class="pill tag">${esc(ch.title)}</span>`;
+  $("#q-title").textContent = p.meta.title;
+  $("#q-check").classList.toggle("hidden", !solved);
+  $("#q-pills").innerHTML = `<span class="pill ${esc(p.meta.difficulty)}">${esc(p.meta.difficulty)}</span><span class="pill tag">${esc(ch.title)}</span>` +
+    ((p.meta.hints || []).length ? `<button class="pill tag" onclick="toHints()">${icon("help")}Hints</button>` : "");
 }
 function setStatus(id, status) {
   for (const ch of state.catalog.chapters) for (const p of ch.problems) if (p.id === id) p.status = status;
@@ -116,6 +119,7 @@ async function openProblem(id) {
   renderNav();
 }
 
+function toHints() { setTab("problem"); $("#hints-list").scrollIntoView({ behavior: "smooth" }); }
 function renderHints() {
   const p = state.problem, list = $("#hints-list");
   list.innerHTML = "";
@@ -173,11 +177,12 @@ window.addEventListener("beforeunload", () => {
 });
 
 /* ---------- running ---------- */
-async function run() {
+// Run tests the code and shows the result; Submit also records the attempt (and can mark the problem solved).
+async function run(submit = true) {
   if (state.running) return;
   state.running = true;
-  const btn = $("#run");
-  btn.disabled = true;
+  const btn = $(state.mode === "playground" || !submit ? "#run" : "#submit"), label = btn.textContent;
+  $("#run").disabled = $("#submit").disabled = true;
   btn.textContent = "Running…";
   toggleConsole(true);
   $("#results").innerHTML = `<div class="muted pad">Compiling with clang++ -fsanitize=address,undefined …</div>`;
@@ -188,8 +193,8 @@ async function run() {
       renderPlaygroundResults(await api("/api/playground", { code, run: true }));
     } else {
       state.dirty = false;
-      const r = await api("/api/run", { id: state.problem.id, code });
-      renderResults(r);
+      const r = await api("/api/run", { id: state.problem.id, code, submit });
+      renderResults(r, submit);
       setStatus(state.problem.id, r.status);
     }
     $("#save-state").textContent = "saved";
@@ -197,33 +202,37 @@ async function run() {
     $("#results").innerHTML = `<div class="block err"><h4>Error</h4><pre>${esc(err.message)}</pre></div>`;
   } finally {
     state.running = false;
-    btn.disabled = false;
-    runLabel();
+    $("#run").disabled = $("#submit").disabled = false;
+    btn.textContent = label;
   }
 }
 
 function runLabel() {
-  const pg = state.mode === "playground", b = $("#run");
-  b.textContent = pg ? "Run" : "Submit";
-  b.className = "btn " + (pg ? "run" : "submit");
+  const pg = state.mode === "playground";
+  $("#submit").classList.toggle("hidden", pg);
+  $("#file-chip").textContent = pg ? "main.cpp" : "solution.cpp";
+  const noHints = pg || !(state.problem.meta.hints || []).length;
+  $("#hint-btn").classList.toggle("hidden", noHints);
+  $("#hint-btn").nextElementSibling.classList.toggle("hidden", noHints);
 }
 function toggleConsole(open) {
   const c = $("#console"), show = open ?? c.classList.contains("hidden");
   c.classList.toggle("hidden", !show);
-  $("#vdragger").classList.toggle("hidden", !show);
   $("#console-toggle").classList.toggle("closed", !show);
   editor.refresh();
 }
 const verdict = (cls, text, sub = "") => `<div class="banner ${cls}"><span class="verdict">${text}</span><span class="sub">${sub}</span>`;
 
-function renderResults(r) {
+function renderResults(r, submit) {
   const out = [];
   if (!r.compile_ok) {
     out.push(verdict("bad", "Compile Error") + `</div>`);
     out.push(`<div class="block err"><h4>clang++ says</h4><pre>${esc(r.compile_output)}</pre></div>`);
     out.push(`<div class="pad muted">Line numbers like <code>solution.cpp:12:5</code> refer to your editor. Read the first error first.</div>`);
   } else {
-    if (r.solved) {
+    if (r.solved && !submit) {
+      out.push(verdict("ok", "Passed", `All ${r.total} test cases pass. Submit to mark it solved.`) + `</div>`);
+    } else if (r.solved) {
       out.push(verdict("ok", "Accepted", `Passed test cases: ${r.total} / ${r.total}`) +
         (r.next_id ? `<button class="btn run" onclick="openProblem('${r.next_id}')">Next problem ${icon("right")}</button>` : `<span class="muted">That was the last one.</span>`) + `</div>`);
     } else if (r.timed_out) {
@@ -296,13 +305,22 @@ function init() {
     mode: CPP, theme: "nc", lineNumbers: true, indentUnit: 4, tabSize: 4, indentWithTabs: false,
     matchBrackets: true, autoCloseBrackets: true, lineWrapping: false,
     extraKeys: {
-      "Cmd-Enter": run, "Ctrl-Enter": run,
+      "Cmd-Enter": () => run(), "Ctrl-Enter": () => run(),
       Tab: (cm) => cm.somethingSelected() ? cm.indentSelection("add") : cm.replaceSelection("    ", "end"),
       "Shift-Tab": (cm) => cm.indentSelection("subtract"),
     },
   });
   editor.on("change", scheduleSave);
-  $("#run").onclick = run;
+  let activeLine = null;
+  editor.on("cursorActivity", () => {
+    const c = editor.getCursor();
+    $("#ln-col").textContent = `Ln ${c.line + 1}, Col ${c.ch + 1}`;
+    if (activeLine) editor.removeLineClass(activeLine, "gutter", "active-line");
+    activeLine = editor.addLineClass(c.line, "gutter", "active-line");
+  });
+  $("#run").onclick = () => run(false);
+  $("#submit").onclick = () => run(true);
+  $("#hint-btn").onclick = toHints;
   $("#reset").onclick = () => {
     if (state.mode === "playground") { editor.setValue(PLAYGROUND_RESET); return; }
     if (confirm("Replace your code with the original starter?")) editor.setValue(state.problem.starter);
@@ -314,6 +332,7 @@ function init() {
   $("#console-toggle").onclick = () => toggleConsole();
   drag($("#dragger"), (e) => { $("#left").style.flexBasis = Math.min(Math.max(e.clientX - 10, 320), innerWidth - 360) + "px"; });
   drag($("#vdragger"), (e) => {
+    if ($("#console").classList.contains("hidden")) return;
     const r = $("#right").getBoundingClientRect(), bar = $(".submit-toolbar").offsetHeight;
     $("#console").style.height = Math.min(Math.max(r.bottom - bar - e.clientY, 80), r.height - 200) + "px";
   });

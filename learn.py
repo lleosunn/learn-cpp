@@ -279,15 +279,16 @@ def api_run(body):
     result = run_problem(pid, code)
     e = progress.entry(pid)
     e["code"] = code
-    e["attempts"] += 1
-    if result["solved"]:
-        if e["status"] != "solved":
-            e["solved_at"] = datetime.now().isoformat(timespec="seconds")
-        e["status"] = "solved"
-    elif e["status"] == "untouched":
-        e["status"] = "attempted"
+    if body.get("submit", True):  # the Run button sends submit=false: test the code, record nothing but the code
+        e["attempts"] += 1
+        if result["solved"]:
+            if e["status"] != "solved":
+                e["solved_at"] = datetime.now().isoformat(timespec="seconds")
+            e["status"] = "solved"
+        elif e["status"] == "untouched":
+            e["status"] = "attempted"
     progress.save()
-    if result["solved"]:
+    if result["solved"] and body.get("submit", True):
         git_record(pid, code, result)
     ids = all_ids()
     nxt = ids[ids.index(pid) + 1] if pid in ids and ids.index(pid) + 1 < len(ids) else None
