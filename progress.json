@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "02-references/01-swap",
+ "last_problem": "02-references/02-const-ref",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -46,11 +46,11 @@
    "solved_at": "2026-11-22T23:03:35"
   },
   "02-references/02-const-ref": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include <vector>\n\n// Return the sum of item.value over all items.\n// Tracked is already defined. This version gets the right number...\n// but run the tests and look at Tracked::copies.\nint sum_values(const std::vector<Tracked>& items) {\n    int s = 0;\n    for (const Tracked& t : items) s += t.value;\n    return s;\n}\n",
+   "attempts": 5,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-23T00:15:24"
   },
   "02-references/03-min-max-out-params": {
    "status": "untouched",
