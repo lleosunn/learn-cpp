@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/02-swap-through-pointers",
+ "last_problem": "03-pointers/03-c-array-sum-max",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -88,11 +88,11 @@
    "solved_at": "2026-11-23T13:30:33"
   },
   "03-pointers/03-c-array-sum-max": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include <cstddef>\n\n// Sum of arr[0..n). Must not overflow for any two ints.\nlong long sum_array(const int* arr, std::size_t n) {\n    // TODO: loop i from 0 up to (not including) n and accumulate\n    long long total = 0;\n    for (std::size_t i = 0; i < n; ++i) {\n        total += arr[i];\n    }\n    return total;\n}\n\n// Pointer to the first maximum element of arr[0..n), or nullptr if n == 0.\nint* max_element_ptr(int* arr, std::size_t n) {\n    // TODO: keep a pointer to the best element seen so far\n    if (n == 0) return nullptr;\n    int* best_ptr = &arr[0];\n    for (std::size_t i = 0; i < n; ++i) {\n        if (*best_ptr < arr[i]) best_ptr = &arr[i];\n    }\n    return best_ptr;\n}\n",
+   "attempts": 10,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-23T13:58:00"
   },
   "03-pointers/04-c-strings": {
    "status": "untouched",
