@@ -5,10 +5,10 @@
 // If v is empty, return false and leave lo and hi exactly as they were.
 bool min_max(const std::vector<int>& v, int& lo, int& hi) {
     // TODO
-    if (std::size(v) == 0) return false;
+    if (v.empty()) return false;
     lo = v[0];
     hi = v[0];
-    for (const int& n : v) {
+    for (int n : v) {
         lo = std::min(n, lo);
         hi = std::max(n, hi);
     }
