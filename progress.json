@@ -96,8 +96,8 @@
   },
   "03-pointers/04-c-strings": {
    "status": "solved",
-   "code": "#include <cstddef>\n\n// Number of chars in s before the '\\0' terminator.\nstd::size_t c_strlen(const char* s) {\n    // TODO: walk a pointer forward until *p == '\\0', then return the distance from s\n    const char* p = s;\n    while (*p != '\\0') ++p;\n    return p - s;\n}\n\n// Pointer to the first c in s, or nullptr if absent. c == '\\0' finds the terminator.\nconst char* find_char(const char* s, char c) {\n    bool stop = false;\n    while (not stop) {\n        if (*s == c) return s;\n        if (*s == '\\0') stop = true;\n        ++s;\n    }\n    return nullptr;\n}\n",
-   "attempts": 7,
+   "code": "#include <cstddef>\n\n// Number of chars in s before the '\\0' terminator.\nstd::size_t c_strlen(const char* s) {\n    // TODO: walk a pointer forward until *p == '\\0', then return the distance from s\n    const char* p = s;\n    while (*p != '\\0') ++p;\n    return p - s;\n}\n\n// Pointer to the first c in s, or nullptr if absent. c == '\\0' finds the terminator.\nconst char* find_char(const char* s, char c) {\n    while (true) {\n        if (*s == c) return s;\n        if (*s == '\\0') return nullptr;\n        ++s;\n    }\n}\n",
+   "attempts": 9,
    "hints_revealed": 0,
    "solved_at": "2026-11-23T14:30:35"
   },

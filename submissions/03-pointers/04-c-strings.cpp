@@ -10,11 +10,9 @@ std::size_t c_strlen(const char* s) {
 
 // Pointer to the first c in s, or nullptr if absent. c == '\0' finds the terminator.
 const char* find_char(const char* s, char c) {
-    bool stop = false;
-    while (not stop) {
+    while (true) {
         if (*s == c) return s;
-        if (*s == '\0') stop = true;
+        if (*s == '\0') return nullptr;
         ++s;
     }
-    return nullptr;
 }
