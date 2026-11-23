@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "01-basics/04-widen-before-multiply",
+ "last_problem": "01-basics/05-format-hms",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -32,11 +32,11 @@
    "solved_at": "2026-11-22T21:12:47"
   },
   "01-basics/05-format-hms": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include <string>\n\n// Format total_seconds (>= 0) as H:MM:SS: hours unpadded, minutes and seconds two digits.\nstd::string pad2(int val) {\n    if (val < 10) {\n        return \"0\" + std::to_string(val);\n    }\n    else {\n        return std::to_string(val);\n    }\n}\n\nstd::string format_hms(int total_seconds) {\n    // TODO: split with / and %, build the string with std::to_string and +.\n    //       A pad2(int) helper defined ABOVE this function keeps it readable.\n    int hours = total_seconds / 3600;\n    total_seconds = total_seconds - 3600 * hours;\n    int minutes = total_seconds / 60;\n    total_seconds = total_seconds - 60 * minutes;\n    return std::to_string(hours) + \":\" + pad2(minutes) + \":\" + pad2(total_seconds);\n}\n",
+   "attempts": 2,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-22T22:00:22"
   },
   "02-references/01-swap": {
    "status": "untouched",
