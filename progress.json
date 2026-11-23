@@ -68,8 +68,8 @@
   },
   "02-references/05-return-reference-safely": {
    "status": "solved",
-   "code": "#include <string>\n#include <vector>\n\n// Return a reference to the longest string in words (first wins ties).\n// words is non-empty. Do not copy the string.\n// This version compiles with a warning. Run it and read what the sanitizer says.\nconst std::string& longest_word(const std::vector<std::string>& words) {\n    int best_index = 0;\n    std::size_t best_length = 0;\n    for (std::size_t i = 0; i < words.size(); ++i) {\n        if (words[i].size() > best_length){\n            best_length = words[i].size();\n            best_index = i;\n        }\n    }\n    return words[best_index];\n}\n",
-   "attempts": 9,
+   "code": "#include <string>\n#include <vector>\n\n// Return a reference to the longest string in words (first wins ties).\n// words is non-empty. Do not copy the string.\n// This version compiles with a warning. Run it and read what the sanitizer says.\nconst std::string& longest_word(const std::vector<std::string>& words) {\n    std::size_t best_index = 0;\n    for (std::size_t i = 0; i < words.size(); ++i) {\n        if (words[i].size() > words[best_index].size()){\n            best_index = i;\n        }\n    }\n    return words[best_index];\n}\n",
+   "attempts": 10,
    "hints_revealed": 0,
    "solved_at": "2026-11-23T12:32:27"
   },
