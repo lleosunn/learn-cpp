@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "02-references/05-return-reference-safely",
+ "last_problem": "03-pointers/01-deref-or-fallback",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -74,11 +74,11 @@
    "solved_at": "2026-11-23T12:32:27"
   },
   "03-pointers/01-deref-or-fallback": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "// Return the int p points at, or fallback if p is null.\n// This starter is deliberately missing the null check. Run it first and read the report.\nint value_or(const int* p, int fallback) {\n    // TODO: check p before dereferencing it\n    if (p == nullptr) return fallback;\n    return *p;\n}\n",
+   "attempts": 2,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-23T13:26:16"
   },
   "03-pointers/02-swap-through-pointers": {
    "status": "untouched",
