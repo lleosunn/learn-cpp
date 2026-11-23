@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/04-c-strings",
+ "last_problem": "03-pointers/05-pointer-to-pointer",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -102,11 +102,11 @@
    "solved_at": "2026-11-23T14:30:35"
   },
   "03-pointers/05-pointer-to-pointer": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
-   "hints_revealed": 0,
-   "solved_at": null
+   "status": "solved",
+   "code": "#include <cstddef>\n#include <iostream>\n\n// Search arr[0..n) for target. Return whether it was found.\n// If out is not null, set *out to a pointer to the first match, or to nullptr if none.\nbool find_first(int* arr, std::size_t n, int target, int** out) {\n    // TODO: reset *out, scan, write the match through out\n    if (out) *out = nullptr;\n    for (std::size_t i = 0; i < n; ++i) {\n        if (arr[i] == target) {\n            if (out) *out = arr + i;\n            return true;\n        }\n    }\n    return false;\n}",
+   "attempts": 3,
+   "hints_revealed": 3,
+   "solved_at": "2026-11-23T15:34:01"
   },
   "04-heap-raii/01-new-delete": {
    "status": "untouched",
