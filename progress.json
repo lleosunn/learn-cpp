@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/05-pointer-to-pointer",
+ "last_problem": "03-pointers/06-reverse-in-place",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -277,6 +277,48 @@
    "solved_at": null
   },
   "08-modern/05-lru-cache": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/06-reverse-in-place": {
+   "status": "solved",
+   "code": "#include <cstddef>\n\n// Reverse arr[0..n) in place.\nvoid reverse_array(int* arr, std::size_t n) {\n    // TODO: one pointer at the front, one starting at arr + n; swap and step inward\n    int* lo = arr;\n    int* hi = arr + n;\n    while (lo < hi) {\n        --hi;\n        int temp = *hi;\n        *hi = *lo;\n        *lo = temp;\n        ++lo;\n        \n    }\n    \n}\n",
+   "attempts": 1,
+   "hints_revealed": 0,
+   "solved_at": "2026-11-23T16:28:32"
+  },
+  "03-pointers/07-half-open-ranges": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/08-compare-c-strings": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/09-bounded-copy": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/10-swap-two-pointers": {
+   "status": "untouched",
+   "code": null,
+   "attempts": 0,
+   "hints_revealed": 0,
+   "solved_at": null
+  },
+  "03-pointers/11-advance-the-cursor": {
    "status": "untouched",
    "code": null,
    "attempts": 0,
