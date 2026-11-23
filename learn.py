@@ -249,20 +249,8 @@ def api_save(body):
     return {"ok": True, "status": e["status"]}
 
 
-def verdict(r):
-    if not r["compile_ok"]:
-        return "Compile Error"
-    if r["solved"]:
-        return f"Accepted ({r['passed']}/{r['total']})"
-    if r["timed_out"]:
-        return "Time Limit Exceeded"
-    if r["crashed"]:
-        return "Runtime Error"
-    return f"Wrong Answer ({r['passed']}/{r['total']})"
-
-
 def git_record(pid, code, result):
-    """Commit this submission (the code as submissions/<pid>.cpp, plus progress.json) and push it.
+    """Commit an accepted submission (the code as submissions/<pid>.cpp, plus progress.json) and push it.
 
     Runs in the background and is best effort: if this is not a git repo, or the push fails,
     it prints one line and the submission is unaffected. An unpushed commit goes up with the next push.
@@ -276,7 +264,7 @@ def git_record(pid, code, result):
                 src.parent.mkdir(parents=True, exist_ok=True)
                 src.write_text(code)
                 paths = ["--", str(src), str(PROGRESS_FILE)]
-                for args in (["add", *paths], ["commit", "-q", "-m", f"{title}: {verdict(result)}", *paths], ["push", "-q"]):
+                for args in (["add", *paths], ["commit", "-q", "-m", f"{title}: Accepted ({result['passed']}/{result['total']})", *paths], ["push", "-q"]):
                     subprocess.run(["git", "-C", str(ROOT), *args], check=True, capture_output=True, text=True,
                                    timeout=30, env=dict(os.environ, GIT_TERMINAL_PROMPT="0"))
             except (subprocess.SubprocessError, OSError) as err:
@@ -299,7 +287,8 @@ def api_run(body):
     elif e["status"] == "untouched":
         e["status"] = "attempted"
     progress.save()
-    git_record(pid, code, result)
+    if result["solved"]:
+        git_record(pid, code, result)
     ids = all_ids()
     nxt = ids[ids.index(pid) + 1] if pid in ids and ids.index(pid) + 1 < len(ids) else None
     result.update(status=e["status"], next_id=nxt)

@@ -20,9 +20,9 @@ reveal. The **Playground** runs any program with a `main()`.
 Progress (solved state, your in-progress code, revealed hints) autosaves to `progress.json` next to this file.
 Delete that file to start over.
 
-If this folder is a git repo, every **Submit** is also committed and pushed in the background: your code goes to
-`submissions/<chapter>/<problem>.cpp` with a message like `Average of Three: Wrong Answer (3/7)`. Git failures
-(offline, no remote) print one line in the terminal and never affect the submission.
+If this folder is a git repo, every accepted **Submit** is also committed and pushed in the background: your code goes
+to `submissions/<chapter>/<problem>.cpp` with a message like `Average of Three: Accepted (7/7)`. Failed submissions
+are not committed. Git failures (offline, no remote) print one line in the terminal and never affect the submission.
 
 ## Layout
 
