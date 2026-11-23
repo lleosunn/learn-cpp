@@ -130,6 +130,8 @@ pre { font-family: var(--mono); font-size: 14px; line-height: 1.5; white-space: 
 .status-btn { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; font-weight: 500; }
 .status-btn:hover { border-color: #f59e0b; }
 .status-btn .i { width: 13px; height: 13px; color: #f59e0b; }
+#tutor-btn:hover, #tutor-btn.active { border-color: var(--primary); }
+#tutor-btn .i { color: var(--primary); }
 .sep { width: 1px; height: 12px; background: var(--border); }
 #save-state, #ln-col { font-size: 11px; color: rgba(245, 245, 245, .7); white-space: nowrap; }
 #save-state:empty, #save-state:empty + .sep { display: none; }
@@ -159,6 +161,23 @@ pre { font-family: var(--mono); font-size: 14px; line-height: 1.5; white-space: 
 /* console */
 #console { flex: 0 0 auto; height: 40%; min-height: 0; display: flex; flex-direction: column; border-bottom: 1px solid var(--border); }
 #console .tabs button { font-weight: 700; cursor: default; }
+
+/* tutor side panel */
+#tutor { flex: 0 0 calc(30% - 8px); }
+.tutor-head { display: flex; align-items: center; flex-shrink: 0; height: 36px; padding: 0 4px 0 14px; border-bottom: 1px solid var(--border); }
+.tutor-title { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 600; }
+.tutor-title .i { width: 15px; height: 15px; color: var(--primary); }
+.tutor-head .nav-btn.icon { width: 28px; height: 28px; }
+#chat { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 14px 16px; font-size: 15px; }
+.msg { max-width: 92%; }
+.msg.student { align-self: flex-end; padding: 8px 12px; border-radius: 12px; background: var(--control); white-space: pre-wrap; }
+.msg.tutor p, .msg.tutor li { font-size: 15px; }
+.msg.tutor pre { padding: 12px 14px; }
+.msg.tutor pre code { font-size: 13px; }
+.msg.tutor > :last-child { margin-bottom: 0; }
+#ask-form { display: flex; align-items: flex-end; flex-shrink: 0; gap: 8px; padding: 9px 12px; border-top: 1px solid var(--border); }
+#ask-input { flex: 1; height: 2rem; padding: 5px 10px; resize: none; border: 1px solid var(--border); border-radius: 6px; background: var(--raised); color: var(--fg); font: 15px/1.4 var(--sans); }
+#ask-input:focus { outline: none; border-color: var(--primary); }
 #results { flex: 1; overflow-y: auto; font-size: 15px; }
 .banner { display: flex; align-items: center; gap: 12px; padding: 16px 16px 10px; }
 .verdict { font-size: 20px; font-weight: 700; }

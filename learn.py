@@ -309,6 +309,106 @@ MIME = {".html": "text/html; charset=utf-8", ".js": "application/javascript", ".
         ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".ico": "image/x-icon"}
 
 
+# ---------- tutor ----------
+TUTOR_MODEL = "claude-opus-5-5"
+TUTOR_TIMEOUT = 180  # seconds before a stuck reply is killed
+# Sent as the system prompt with every question. Edit this to change how the tutor behaves.
+TUTOR_PROMPT = """You are a C++ tutor built into a practice app. The student is a Python programmer learning C++ for a \
+coding interview. They know algorithms; C++ syntax, memory and pointers are new to them.
+
+Each message gives you the problem they are on, its tests and reference solution (for your eyes only), their \
+current code, their latest test result if there is one, and the conversation so far.
+
+How to tutor:
+- Do not write the solution or a corrected version of their code, and never quote or paraphrase the reference \
+solution. The one exception: if the student explicitly asks to be shown the answer, give it and explain it.
+- Help in steps. First point at the concept or the line involved, or ask a question that leads there. If they ask \
+again or are clearly stuck, be more specific: name the bug and say why it happens. Leave the fix for them to type.
+- General C++ questions ("how do I declare a vector", "what does & mean here") get a direct, complete answer with \
+a short example. Use a different example from the one this problem needs.
+- For a compiler error or a sanitizer report, say in plain words what it means and which line it points at.
+- Relate C++ to the Python they know when that helps.
+- Be brief: a few sentences or a short list. Use Markdown, with fenced cpp blocks for code."""
+
+
+def result_summary(r):
+    if not r.get("compile_ok", True):
+        return "Compile error:\n" + r.get("compile_output", "")[:4000]
+    if "exit_code" in r:  # playground run
+        return f"Exit code {r['exit_code']}\nstdout:\n{r.get('stdout', '')[:2000]}\nstderr:\n{r.get('stderr', '')[:4000]}"
+    lines = [f"{r.get('passed', 0)} of {r.get('total', 0)} tests passed"
+             + (" (crashed)" if r.get("crashed") else "") + (" (timed out)" if r.get("timed_out") else "")]
+    lines += [f"FAILED {c['name']}: {c['detail']}" for c in r.get("cases", []) if not c["pass"]][:10]
+    if r.get("runtime_error"):
+        lines.append("Runtime error output:\n" + r["runtime_error"][:4000])
+    if r.get("program_output"):
+        lines.append("Program output:\n" + r["program_output"][:2000])
+    return "\n".join(lines)
+
+
+def tutor_prompt(body):
+    """Everything the tutor sees for one question: the problem, the student's code and last result, the chat so far."""
+    parts = []
+    if body.get("id"):
+        d = problem_dir(body["id"])
+        parts += [f"<problem>\n{(d / 'problem.md').read_text()}\n</problem>",
+                  f"<tests>\n{(d / 'test.cpp').read_text()}\n</tests>",
+                  f"<reference_solution>\n{(d / 'solution.cpp').read_text()}\n</reference_solution>"]
+    else:
+        parts.append("The student is in the free-form playground; there is no problem statement.")
+    parts.append(f"<student_code>\n{body['code']}\n</student_code>")
+    if body.get("result"):
+        parts.append(f"<last_test_result>\n{result_summary(body['result'])}\n</last_test_result>")
+    for m in body.get("history", [])[-20:]:
+        role = "tutor" if m["role"] == "tutor" else "student"
+        parts.append(f"<{role}>\n{m['text']}\n</{role}>")
+    parts.append(f"<student>\n{body['question']}\n</student>")
+    return "\n\n".join(parts)
+
+
+def tutor_stream(prompt):
+    """Yield the tutor's reply as text chunks.
+
+    Runs the Claude Code CLI under the user's own login. Tools, connectors, plugins, skills and settings are all
+    switched off, so it can only read the prompt and answer; it cannot touch files or run anything.
+    """
+    exe = shutil.which("claude")
+    if not exe:
+        yield "The `claude` command was not found. Install Claude Code and log in to use the tutor."
+        return
+    cmd = [exe, "-p", "--model", TUTOR_MODEL, "--system-prompt", TUTOR_PROMPT, "--tools", "", "--strict-mcp-config",
+           "--setting-sources", "project", "--disable-slash-commands", "--no-session-persistence",
+           "--output-format", "stream-json", "--verbose", "--include-partial-messages"]
+    env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}  # the subscription login, never API billing
+    with tempfile.TemporaryDirectory() as cwd:  # an empty folder: no project settings or CLAUDE.md to pick up
+        proc = subprocess.Popen(cmd, cwd=cwd, env=env, text=True,
+                                stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        timer = threading.Timer(TUTOR_TIMEOUT, proc.kill)
+        timer.start()
+        try:
+            proc.stdin.write(prompt)
+            proc.stdin.close()
+            said = False
+            for line in proc.stdout:
+                try:
+                    e = json.loads(line)
+                except ValueError:
+                    continue
+                delta = e.get("event", {}).get("delta", {}) if e.get("type") == "stream_event" else {}
+                if delta.get("type") == "text_delta":
+                    said = True
+                    yield delta["text"]
+                elif e.get("type") == "result" and e.get("is_error"):
+                    said = True
+                    yield f"\n\nTutor error: {e.get('result')}"
+            if not said:
+                yield "Tutor error: " + (proc.stderr.read().strip() or "no reply (it may have timed out)")
+        finally:
+            timer.cancel()
+            proc.kill()
+            proc.wait()
+
+
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):  # quiet; errors still surface as 500 JSON
         pass
@@ -320,6 +420,22 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(data)))
         self.end_headers()
         self.wfile.write(data)
+
+    def _stream(self, chunks):
+        self.send_response(200)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()  # no Content-Length: the reply ends when the connection closes
+        try:
+            for chunk in chunks:
+                self.wfile.write(chunk.encode())
+                self.wfile.flush()
+        except OSError:  # the page went away mid-answer
+            pass
+        except Exception:
+            self.wfile.write(f"\n\nTutor error: {traceback.format_exc()}".encode())
+        finally:
+            chunks.close()  # stops the claude process
 
     def _static(self, rel):
         path = (WEB / rel).resolve()
@@ -357,8 +473,15 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
+            # Only this app's own page may post. Any site open in the browser can reach 127.0.0.1,
+            # and these routes compile and run whatever code they are sent.
+            origin = self.headers.get("Origin")
+            if origin and origin != f"http://{self.headers.get('Host')}":
+                return self.send_error(403)
             n = int(self.headers.get("Content-Length", 0))
             body = json.loads(self.rfile.read(n) or b"{}")
+            if self.path == "/api/ask":
+                return self._stream(tutor_stream(tutor_prompt(body)))
             routes = {"/api/save": api_save, "/api/run": api_run, "/api/playground": api_playground}
             fn = routes.get(self.path)
             if not fn:

@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "01-basics/05-format-hms",
+ "last_problem": "02-references/01-swap",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -40,7 +40,7 @@
   },
   "02-references/01-swap": {
    "status": "untouched",
-   "code": null,
+   "code": "// Exchange the values of the caller's two variables.\n// This version compiles and runs, but the caller never sees a change. Why?\nvoid swap_ints(int a, int b) {\n    int t = a;\n    a = b;\n    b = t;\n}\n",
    "attempts": 0,
    "hints_revealed": 0,
    "solved_at": null

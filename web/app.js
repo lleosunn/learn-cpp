@@ -185,16 +185,17 @@ async function run(submit = true) {
   $("#run").disabled = $("#submit").disabled = true;
   btn.textContent = "Running…";
   toggleConsole(true);
+  const key = chatKey();
   $("#results").innerHTML = `<div class="muted pad">Compiling with clang++ -fsanitize=address,undefined …</div>`;
   try {
     const code = editor.getValue();
     if (state.mode === "playground") {
       state.dirty = false;
-      renderPlaygroundResults(await api("/api/playground", { code, run: true }));
+      renderPlaygroundResults(lastResults[key] = await api("/api/playground", { code, run: true }));
     } else {
       state.dirty = false;
       const r = await api("/api/run", { id: state.problem.id, code, submit });
-      renderResults(r, submit);
+      renderResults(lastResults[key] = r, submit);
       setStatus(state.problem.id, r.status);
     }
     $("#save-state").textContent = "saved";
@@ -214,6 +215,7 @@ function runLabel() {
   const noHints = pg || !(state.problem.meta.hints || []).length;
   $("#hint-btn").classList.toggle("hidden", noHints);
   $("#hint-btn").nextElementSibling.classList.toggle("hidden", noHints);
+  renderChat();
 }
 function toggleConsole(open) {
   const c = $("#console"), show = open ?? c.classList.contains("hidden");
@@ -252,6 +254,54 @@ function renderResults(r, submit) {
     if (r.compile_output) out.push(`<div class="block warnpre"><details><summary>Compiler warnings</summary><pre>${esc(r.compile_output)}</pre></details></div>`);
   }
   $("#results").innerHTML = out.join("");
+}
+
+/* ---------- tutor ---------- */
+// Chats and last results are kept per problem ("playground" for the playground) until the page reloads.
+const chats = {}, lastResults = {};
+const chatKey = () => (state.mode === "playground" ? "playground" : state.problem.id);
+function toggleTutor(open) {
+  const show = open ?? $("#tutor").classList.contains("hidden");
+  $("#tutor").classList.toggle("hidden", !show);
+  $("#tdragger").classList.toggle("hidden", !show);
+  $("#tutor-btn").classList.toggle("active", show);
+  editor.refresh();
+  if (show) $("#ask-input").focus();
+}
+function renderChat() {
+  const box = $("#chat"), msgs = chats[chatKey()] || [];
+  box.innerHTML = msgs.length ? "" : `<div class="muted">The tutor sees this problem, your code and your last result. It gives hints rather than the answer, unless you ask for the answer.</div>`;
+  for (const m of msgs) {
+    const d = document.createElement("div");
+    d.className = `msg ${m.role}`;
+    if (m.role === "tutor") { d.classList.add("markdown"); renderMarkdown(d, m.text || "…"); }
+    else d.textContent = m.text;
+    box.appendChild(d);
+  }
+  box.scrollTop = box.scrollHeight;
+}
+async function ask(question) {
+  const key = chatKey(), msgs = (chats[key] ||= []), history = msgs.slice(-20), reply = { role: "tutor", text: "" };
+  msgs.push({ role: "student", text: question }, reply);
+  renderChat();
+  $("#ask-send").disabled = true;
+  try {
+    const r = await fetch("/api/ask", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+      id: state.mode === "playground" ? null : state.problem.id, code: editor.getValue(), result: lastResults[key], history, question }) });
+    if (!r.ok) throw new Error((await r.json().catch(() => ({}))).error || `HTTP ${r.status}`);
+    const reader = r.body.getReader(), dec = new TextDecoder();
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      reply.text += dec.decode(value, { stream: true });
+      if (chatKey() === key) renderChat();
+    }
+  } catch (err) {
+    reply.text += `\n\nTutor error: ${err.message}`;
+  } finally {
+    $("#ask-send").disabled = false;
+    if (chatKey() === key) renderChat();
+  }
 }
 
 /* ---------- playground ---------- */
@@ -321,6 +371,20 @@ function init() {
   $("#run").onclick = () => run(false);
   $("#submit").onclick = () => run(true);
   $("#hint-btn").onclick = toHints;
+  $("#tutor-btn").onclick = () => toggleTutor();
+  $("#tutor-close").onclick = () => toggleTutor(false);
+  drag($("#tdragger"), (e) => {
+    const right = $("#main").getBoundingClientRect().right - 19;  // 19 = #main's right padding
+    $("#tutor").style.flexBasis = Math.min(Math.max(right - e.clientX, 260), innerWidth * 0.5) + "px";
+  });
+  $("#ask-form").onsubmit = (e) => {
+    e.preventDefault();
+    const q = $("#ask-input").value.trim();
+    if (!q || $("#ask-send").disabled) return;
+    $("#ask-input").value = "";
+    ask(q);
+  };
+  $("#ask-input").onkeydown = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("#ask-form").requestSubmit(); } };
   $("#reset").onclick = () => {
     if (state.mode === "playground") { editor.setValue(PLAYGROUND_RESET); return; }
     if (confirm("Replace your code with the original starter?")) editor.setValue(state.problem.starter);

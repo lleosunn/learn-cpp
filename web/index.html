@@ -23,6 +23,7 @@
   <symbol id="i-tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></symbol>
   <symbol id="i-braces" viewBox="0 0 24 24"><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></symbol>
+  <symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2M20 14h2M15 13v2M9 13v2"/></symbol>
   <symbol id="i-terminal" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6M12 19h8"/></symbol>
 </svg>
 
@@ -78,6 +79,8 @@
     <div class="status-row">
       <span id="file-chip" class="file-chip"></span>
       <span class="spacer"></span>
+      <button id="tutor-btn" class="status-btn" title="Ask the tutor about this problem or your code"><svg class="i"><use href="#i-bot"/></svg>Tutor</button>
+      <span class="sep"></span>
       <button id="hint-btn" class="status-btn"><svg class="i"><use href="#i-bulb"/></svg>Hint</button>
       <span class="sep"></span>
       <span id="save-state"></span>
@@ -96,6 +99,21 @@
       <button id="run" class="btn run" title="Run the tests without recording an attempt">Run</button>
       <button id="submit" class="btn submit" title="Run the tests and record the result (⌘↵)">Submit</button>
     </div>
+  </section>
+
+  <div id="tdragger" class="dragger hidden"></div>
+
+  <section id="tutor" class="panel hidden">
+    <div class="tutor-head">
+      <span class="tutor-title"><svg class="i"><use href="#i-bot"/></svg>Tutor</span>
+      <span class="spacer"></span>
+      <button id="tutor-close" class="nav-btn icon" title="Close"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="chat"></div>
+    <form id="ask-form">
+      <textarea id="ask-input" rows="1" placeholder="Ask about this problem or C++"></textarea>
+      <button id="ask-send" class="btn run">Ask</button>
+    </form>
   </section>
 </main>
 

@@ -18,6 +18,11 @@ anything; **Submit** (⌘↵) also counts the attempt and can mark the problem s
 readable reports instead of silent garbage. Hints are collapsed sections under the question; the reference solution is behind a two-click
 reveal. The **Playground** runs any program with a `main()`.
 
+**Tutor** (next to Hint) opens a side panel with a chat that sees the current problem, your code and your last result. It runs the
+`claude` command line tool under your own Claude Code login, with all tools switched off, and is told to give hints
+rather than answers unless you ask for the answer. Its instructions are `TUTOR_PROMPT` in `learn.py`; the model is
+`TUTOR_MODEL`. Chats are kept until the page reloads.
+
 Progress (solved state, your in-progress code, revealed hints) autosaves to `progress.json` next to this file.
 Delete that file to start over.
 
