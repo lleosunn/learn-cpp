@@ -26,9 +26,9 @@
   },
   "01-basics/04-widen-before-multiply": {
    "status": "attempted",
-   "code": "// Return a * b exactly, as a 64-bit integer.\nlong long product(int a, int b) {\n    // TODO: this compiles. Run the tests and read the UBSan report.\n    a = static_cast<long long>(a);\n    b = static_cast<long long>(b);\n    return a*b;\n}\n",
-   "attempts": 3,
-   "hints_revealed": 0,
+   "code": "// Return a * b exactly, as a 64-bit integer.\nlong long product(int a, int b) {\n    // TODO: this compiles. Run the tests and read the UBSan report.\n    c = static_cast<long long>(a);\n    d = static_cast<long long>(b);\n    return c*d;\n}\n",
+   "attempts": 4,
+   "hints_revealed": 3,
    "solved_at": null
   },
   "01-basics/05-format-hms": {
