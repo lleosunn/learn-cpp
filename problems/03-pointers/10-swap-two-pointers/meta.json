@@ -1,0 +1,9 @@
+{
+  "title": "Swap Two Pointers",
+  "difficulty": "medium",
+  "hints": [
+    "Count the stars. `a` is an `int**` (where the caller's `p` lives), `*a` is an `int*` (the caller's `p` itself), `**a` is an `int` (what `p` points at). You are swapping the caller's pointers, so every line should have exactly one star.",
+    "It is the three-line swap from problem 2 with the types moved up a level. The temporary holds an address, not an int: `int* t = *a;`. You never need `**`, which is why a null `p` or `q` is harmless.",
+    "```cpp\nint* t = *a;\n*a = *b;\n*b = t;\n```"
+  ]
+}

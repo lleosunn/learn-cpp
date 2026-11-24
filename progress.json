@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/07-half-open-ranges",
+ "last_problem": "03-pointers/08-compare-c-strings",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -299,7 +299,7 @@
   },
   "03-pointers/08-compare-c-strings": {
    "status": "untouched",
-   "code": null,
+   "code": "// True if a and b have the same length and the same chars.\n// This starter is deliberately wrong: it compares the two addresses. Run it first.\nbool c_streq(const char* a, const char* b) {\n    // TODO: walk both pointers together and compare *a with *b\n    return a == b;\n}\n\n// True if s begins with all of prefix. An empty prefix always matches.\nbool starts_with(const char* s, const char* prefix) {\n    // TODO: walk both until prefix hits its terminator\n    return false;\n}\n",
    "attempts": 0,
    "hints_revealed": 0,
    "solved_at": null

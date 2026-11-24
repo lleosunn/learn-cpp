@@ -1,0 +1,9 @@
+{
+  "title": "Copy into a Fixed Buffer",
+  "difficulty": "medium",
+  "hints": [
+    "Handle `cap == 0` first: there is no room for anything, so return 0 without touching `dst`. After that you know at least one byte is yours, and it is reserved for the terminator.",
+    "Copy while two things are both true: there is still room for this char *and* a terminator after it (`i + 1 < cap`), and `src[i]` is not `'\\0'`. Do not write `i < cap - 1` out of habit before the `cap == 0` check: `cap - 1` wraps for an unsigned zero. After the loop, write `dst[i] = '\\0';` and return `i`.",
+    "```cpp\nif (cap == 0) return 0;\nstd::size_t i = 0;\nwhile (i + 1 < cap && src[i] != '\\0') {\n    dst[i] = src[i];\n    ++i;\n}\ndst[i] = '\\0';\nreturn i;\n```"
+  ]
+}

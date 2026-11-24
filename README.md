@@ -1,6 +1,6 @@
 # LearnCPP
 
-A local, LeetCode-style C++ course for people coming from Python. 40 problems in 8 chapters:
+A local, LeetCode-style C++ course for people coming from Python. 46 problems in 8 chapters:
 types → references → pointers → heap memory & RAII → classes → STL → smart pointers & move semantics → lambdas/templates/optional.
 
 ## Run

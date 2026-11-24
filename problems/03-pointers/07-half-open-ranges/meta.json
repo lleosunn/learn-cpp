@@ -1,0 +1,9 @@
+{
+  "title": "Half-Open Ranges",
+  "difficulty": "medium",
+  "hints": [
+    "There is no `n` and no index here. Walk a pointer: `for (const int* p = first; p != last; ++p)`. The loop never runs when `first == last`, which is exactly what an empty range needs.",
+    "In `find_in_range`, return `p` the moment `*p == target`. If the loop finishes, return `last`, not `nullptr`. Never read `*last`: it is one past the end.",
+    "```cpp\nconst int* find_in_range(const int* first, const int* last, int target) {\n    for (const int* p = first; p != last; ++p)\n        if (*p == target) return p;\n    return last;\n}\n\nstd::size_t count_in_range(const int* first, const int* last, int target) {\n    std::size_t count = 0;\n    for (const int* p = first; p != last; ++p)\n        if (*p == target) ++count;\n    return count;\n}\n```"
+  ]
+}

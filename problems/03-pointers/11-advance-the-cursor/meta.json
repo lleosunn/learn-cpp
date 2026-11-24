@@ -1,0 +1,9 @@
+{
+  "title": "Read a Number, Advance the Cursor",
+  "difficulty": "hard",
+  "hints": [
+    "Do not fight the double star inside the loop. Copy the caller's position into a plain local, `const char* p = *cursor;`, and do all the walking with `*p` and `++p` exactly as in problem 4.",
+    "A char is a digit when `*p >= '0' && *p <= '9'`, and its value is `*p - '0'`. Build the number with `value = value * 10 + (*p - '0');`. When the loop ends, `p` is on the first non-digit: hand that back with `*cursor = p;`. If there were no digits, `p` never moved, so writing it back changes nothing.",
+    "```cpp\nconst char* p = *cursor;\nint value = 0;\nwhile (*p >= '0' && *p <= '9') {\n    value = value * 10 + (*p - '0');\n    ++p;\n}\n*cursor = p;\nreturn value;\n```"
+  ]
+}

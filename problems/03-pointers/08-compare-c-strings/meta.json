@@ -1,0 +1,9 @@
+{
+  "title": "Compare Two C Strings",
+  "difficulty": "medium",
+  "hints": [
+    "`a == b` asks whether the two pointers hold the same address. You need to compare the chars: walk both pointers forward together, looking at `*a` and `*b` at each step.",
+    "At each position, in this order: if `*a != *b` the strings differ, return `false`. Otherwise the chars are equal, so if `*a == '\\0'` both strings just ended together, return `true`. Otherwise `++a; ++b;`. For `starts_with`, loop while `*prefix != '\\0'` and return `false` on the first mismatch; the terminator of a too-short `s` is a mismatch like any other.",
+    "```cpp\nbool c_streq(const char* a, const char* b) {\n    for (;; ++a, ++b) {\n        if (*a != *b) return false;\n        if (*a == '\\0') return true;\n    }\n}\n\nbool starts_with(const char* s, const char* prefix) {\n    for (; *prefix != '\\0'; ++s, ++prefix) {\n        if (*s != *prefix) return false;\n    }\n    return true;\n}\n```"
+  ]
+}

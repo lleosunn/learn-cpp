@@ -1,0 +1,9 @@
+{
+  "title": "Reverse in Place",
+  "difficulty": "easy",
+  "hints": [
+    "Two pointers: `int* lo = arr;` at the front and `int* hi = arr + n;` one past the end. `arr + n` is legal to hold and compare even when `n == 0`; `arr + n - 1` is not.",
+    "Loop `while (lo < hi)`. Inside, step `hi` back first (`--hi;`) so it lands on a real element, swap `*lo` and `*hi` with a temporary `int`, then `++lo;`.",
+    "```cpp\nint* lo = arr;\nint* hi = arr + n;\nwhile (lo < hi) {\n    --hi;\n    int t = *lo;\n    *lo = *hi;\n    *hi = t;\n    ++lo;\n}\n```"
+  ]
+}
