@@ -3,7 +3,7 @@
 bool c_streq(const char* a, const char* b) {
     // TODO: walk both pointers together and compare *a with *b
     while (*a == *b) {
-        if (*a == '\0' && *b == '\0') return true;
+        if (*a == '\0') return true;
         ++a;
         ++b;
     }

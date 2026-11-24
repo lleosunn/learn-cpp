@@ -299,8 +299,8 @@
   },
   "03-pointers/08-compare-c-strings": {
    "status": "solved",
-   "code": "// True if a and b have the same length and the same chars.\n// This starter is deliberately wrong: it compares the two addresses. Run it first.\nbool c_streq(const char* a, const char* b) {\n    // TODO: walk both pointers together and compare *a with *b\n    while (*a == *b) {\n        if (*a == '\\0' && *b == '\\0') return true;\n        ++a;\n        ++b;\n    }\n    return false;\n}\n\n// True if s begins with all of prefix. An empty prefix always matches.\nbool starts_with(const char* s, const char* prefix) {\n    // TODO: walk both until prefix hits its terminator\n    while (true) {\n        if (*prefix == '\\0') {\n            return true;\n        }\n        else if (*s == *prefix) {\n            ++s;\n            ++prefix;\n            continue;\n        }\n        else return false;\n    }\n}\n",
-   "attempts": 7,
+   "code": "// True if a and b have the same length and the same chars.\n// This starter is deliberately wrong: it compares the two addresses. Run it first.\nbool c_streq(const char* a, const char* b) {\n    // TODO: walk both pointers together and compare *a with *b\n    while (*a == *b) {\n        if (*a == '\\0') return true;\n        ++a;\n        ++b;\n    }\n    return false;\n}\n\n// True if s begins with all of prefix. An empty prefix always matches.\nbool starts_with(const char* s, const char* prefix) {\n    // TODO: walk both until prefix hits its terminator\n    while (true) {\n        if (*prefix == '\\0') {\n            return true;\n        }\n        else if (*s == *prefix) {\n            ++s;\n            ++prefix;\n            continue;\n        }\n        else return false;\n    }\n}\n",
+   "attempts": 8,
    "hints_revealed": 0,
    "solved_at": "2026-11-24T07:04:13"
   },
