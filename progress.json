@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/08-compare-c-strings",
+ "last_problem": "03-pointers/09-bounded-copy",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -305,11 +305,11 @@
    "solved_at": "2026-11-24T07:04:13"
   },
   "03-pointers/09-bounded-copy": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include <cstddef>\n\n// Copy src into dst, which has room for cap bytes in total (terminator included).\n// Copy at most cap - 1 chars, always terminate when cap > 0, return the number of chars copied.\nstd::size_t copy_string(char* dst, std::size_t cap, const char* src) {\n    // TODO: handle cap == 0, copy while there is room, then write the '\\0'\n    if (cap == 0) {\n        return 0;\n    }\n    int copied = 0;\n    for (std::size_t i = 0; i < cap - 1; ++i) {\n        if (*src != '\\0') {\n            *dst = *src;\n            ++dst;\n            ++src;\n            ++copied;\n        }\n        else break;\n    }\n    *dst = '\\0';\n    return copied;\n}\n",
+   "attempts": 9,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-24T07:35:49"
   },
   "03-pointers/10-swap-two-pointers": {
    "status": "untouched",
