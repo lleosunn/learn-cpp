@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/09-bounded-copy",
+ "last_problem": "03-pointers/10-swap-two-pointers",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -312,11 +312,11 @@
    "solved_at": "2026-11-24T07:35:49"
   },
   "03-pointers/10-swap-two-pointers": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "// Swap the caller's two pointers. The ints they point at must not change.\n// a and b are never null; *a and *b may be.\n// This starter is deliberately wrong: it swaps the ints instead of the pointers. Run it first.\nvoid swap_pointers(int** a, int** b) {\n    // TODO: this goes one level too deep. Swap *a and *b, not **a and **b.\n    int *t = *a;\n    *a = *b;\n    *b = t;\n}\n",
+   "attempts": 3,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-24T07:47:14"
   },
   "03-pointers/11-advance-the-cursor": {
    "status": "untouched",
