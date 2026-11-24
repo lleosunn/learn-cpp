@@ -313,8 +313,8 @@
   },
   "03-pointers/10-swap-two-pointers": {
    "status": "solved",
-   "code": "// Swap the caller's two pointers. The ints they point at must not change.\n// a and b are never null; *a and *b may be.\n// This starter is deliberately wrong: it swaps the ints instead of the pointers. Run it first.\nvoid swap_pointers(int** a, int** b) {\n    // TODO: this goes one level too deep. Swap *a and *b, not **a and **b.\n    int *t = *a;\n    *a = *b;\n    *b = t;\n}\n",
-   "attempts": 3,
+   "code": "// Swap the caller's two pointers. The ints they point at must not change.\n// a and b are never null; *a and *b may be.\n// This starter is deliberately wrong: it swaps the ints instead of the pointers. Run it first.\nvoid swap_pointers(int** a, int** b) {\n    // TODO: this goes one level too deep. Swap *a and *b, not **a and **b.\n    int* t = *a;\n    *a = *b;\n    *b = t;\n}\n",
+   "attempts": 4,
    "hints_revealed": 0,
    "solved_at": "2026-11-24T07:47:14"
   },
