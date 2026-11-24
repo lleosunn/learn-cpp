@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/10-swap-two-pointers",
+ "last_problem": "03-pointers/11-advance-the-cursor",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -319,11 +319,11 @@
    "solved_at": "2026-11-24T07:47:14"
   },
   "03-pointers/11-advance-the-cursor": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "// Read the run of decimal digits starting at *cursor and return its value.\n// Leave *cursor on the first non-digit. No digits: return 0 and leave *cursor unchanged.\n#include <string>\n\nint read_number(const char** cursor) {\n    // TODO: copy *cursor into a local pointer, walk the digits, write the position back\n    int value = 0;\n    while ('0' <= **cursor && **cursor <= '9') {\n        value = 10 * value + (**cursor - '0');\n        ++*cursor;\n    }\n    return value;\n}\n",
+   "attempts": 3,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-24T11:54:35"
   }
  }
 }
