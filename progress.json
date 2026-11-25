@@ -320,8 +320,8 @@
   },
   "03-pointers/11-advance-the-cursor": {
    "status": "solved",
-   "code": "// Read the run of decimal digits starting at *cursor and return its value.\n// Leave *cursor on the first non-digit. No digits: return 0 and leave *cursor unchanged.\n#include <string>\n\nint read_number(const char** cursor) {\n    // TODO: copy *cursor into a local pointer, walk the digits, write the position back\n    int value = 0;\n    while ('0' <= **cursor && **cursor <= '9') {\n        value = 10 * value + (**cursor - '0');\n        ++*cursor;\n    }\n    return value;\n}\n",
-   "attempts": 3,
+   "code": "// Read the run of decimal digits starting at *cursor and return its value.\n// Leave *cursor on the first non-digit. No digits: return 0 and leave *cursor unchanged.\nint read_number(const char** cursor) {\n    // TODO: copy *cursor into a local pointer, walk the digits, write the position back\n    int value = 0;\n    while ('0' <= **cursor && **cursor <= '9') {\n        value = 10 * value + (**cursor - '0');\n        ++*cursor;\n    }\n    return value;\n}\n",
+   "attempts": 4,
    "hints_revealed": 0,
    "solved_at": "2026-11-24T11:54:35"
   }
