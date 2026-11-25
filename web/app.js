@@ -268,8 +268,10 @@ function toggleTutor(open) {
   editor.refresh();
   if (show) $("#ask-input").focus();
 }
-function renderChat() {
-  const box = $("#chat"), msgs = chats[chatKey()] || [];
+// follow=false (streaming re-renders): stay where the reader scrolled to, unless they are at the bottom.
+function renderChat(follow = true) {
+  const box = $("#chat"), msgs = chats[chatKey()] || [], top = box.scrollTop;
+  follow ||= box.scrollHeight - top - box.clientHeight < 40;
   box.innerHTML = msgs.length ? "" : `<div class="muted">The tutor sees this problem, your code and your last result. It gives hints rather than the answer, unless you ask for the answer.</div>`;
   for (const m of msgs) {
     const d = document.createElement("div");
@@ -278,7 +280,7 @@ function renderChat() {
     else d.textContent = m.text;
     box.appendChild(d);
   }
-  box.scrollTop = box.scrollHeight;
+  box.scrollTop = follow ? box.scrollHeight : top;
 }
 async function ask(question) {
   const key = chatKey(), msgs = (chats[key] ||= []), history = msgs.slice(-20), reply = { role: "tutor", text: "" };
@@ -294,13 +296,13 @@ async function ask(question) {
       const { done, value } = await reader.read();
       if (done) break;
       reply.text += dec.decode(value, { stream: true });
-      if (chatKey() === key) renderChat();
+      if (chatKey() === key) renderChat(false);
     }
   } catch (err) {
     reply.text += `\n\nTutor error: ${err.message}`;
   } finally {
     $("#ask-send").disabled = false;
-    if (chatKey() === key) renderChat();
+    if (chatKey() === key) renderChat(false);
   }
 }
 
