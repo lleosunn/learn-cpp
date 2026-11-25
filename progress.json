@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "03-pointers/11-advance-the-cursor",
+ "last_problem": "04-heap-raii/01-new-delete",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -109,11 +109,11 @@
    "solved_at": "2026-11-23T15:34:01"
   },
   "04-heap-raii/01-new-delete": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include \"tracked.h\"\n\n// Return a heap-allocated Tracked whose value is v. The caller owns it.\nTracked* make_tracked(int v) {\n    // TODO: allocate on the heap so the object outlives this function\n    return new Tracked(v);\n}\n\n// Destroy an object returned by make_tracked. Must be safe with nullptr.\nvoid destroy_tracked(Tracked* p) {\n    // TODO: repay the debt\n    delete p;\n}\n",
+   "attempts": 8,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-25T12:53:53"
   },
   "04-heap-raii/02-new-array": {
    "status": "untouched",
