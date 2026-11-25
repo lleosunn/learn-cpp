@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "04-heap-raii/03-grow-buffer",
+ "last_problem": "04-heap-raii/04-raii-wrapper",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -130,11 +130,11 @@
    "solved_at": "2026-11-25T15:52:30"
   },
   "04-heap-raii/04-raii-wrapper": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
-   "hints_revealed": 0,
-   "solved_at": null
+   "status": "solved",
+   "code": "#include \"tracked.h\"\n\n// Owns one heap-allocated Tracked for exactly as long as the wrapper lives.\nclass ScopedTracked {\npublic:\n    explicit ScopedTracked(int v) : p_(new Tracked(v)) {}  // acquire\n\n    ~ScopedTracked() {\n        // TODO: release what the constructor acquired\n        delete p_;\n    }\n\n    // TODO: forbid copying (two wrappers must never own one object)\n    ScopedTracked(const ScopedTracked&) = delete;\n    ScopedTracked& operator=(const ScopedTracked&) = delete;\n\n    Tracked& get() { return *p_; }\n    const Tracked& get() const { return *p_; }\n\n    // Give up ownership: return the pointer; the wrapper owns nothing afterwards.\n    Tracked* release() {\n        // TODO\n        Tracked* t = p_; p_ = nullptr;\n        return t;\n    }\n\nprivate:\n    Tracked* p_;\n};\n",
+   "attempts": 1,
+   "hints_revealed": 3,
+   "solved_at": "2026-11-25T16:22:48"
   },
   "04-heap-raii/05-int-stack": {
    "status": "untouched",
