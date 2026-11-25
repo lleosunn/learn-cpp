@@ -125,7 +125,7 @@
   "04-heap-raii/03-grow-buffer": {
    "status": "solved",
    "code": "#include <algorithm>\n#include <cstddef>\n#include \"tracked.h\"\n\n// Return a fresh heap array of new_n Tracked holding the first min(old_n, new_n)\n// values of old, then release old. old may be nullptr when old_n == 0.\n//\n// This starter compiles and is WRONG on purpose. Run the tests first and read\n// the AddressSanitizer report before you change anything.\nTracked* grow(Tracked* old, std::size_t old_n, std::size_t new_n) {\n    Tracked* p = new Tracked[new_n];\n    for (std::size_t i = 0; i < std::min(old_n, new_n); ++i) p[i].value = old[i].value;\n    delete[] old;\n    return p;\n}\n",
-   "attempts": 4,
+   "attempts": 5,
    "hints_revealed": 0,
    "solved_at": "2026-11-25T15:52:30"
   },
