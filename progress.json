@@ -1,6 +1,6 @@
 {
  "version": 1,
- "last_problem": "04-heap-raii/02-new-array",
+ "last_problem": "04-heap-raii/03-grow-buffer",
  "playground_code": "#include <iostream>\n#include <string>\n#include <vector>\n\nint main() {\n    std::cout << \"Hello, C++!\\n\";\n    return 0;\n}\n",
  "problems": {
   "01-basics/01-digit-sum": {
@@ -123,11 +123,11 @@
    "solved_at": "2026-11-25T15:44:28"
   },
   "04-heap-raii/03-grow-buffer": {
-   "status": "untouched",
-   "code": null,
-   "attempts": 0,
+   "status": "solved",
+   "code": "#include <algorithm>\n#include <cstddef>\n#include \"tracked.h\"\n\n// Return a fresh heap array of new_n Tracked holding the first min(old_n, new_n)\n// values of old, then release old. old may be nullptr when old_n == 0.\n//\n// This starter compiles and is WRONG on purpose. Run the tests first and read\n// the AddressSanitizer report before you change anything.\nTracked* grow(Tracked* old, std::size_t old_n, std::size_t new_n) {\n    Tracked* p = new Tracked[new_n];\n    for (std::size_t i = 0; i < std::min(old_n, new_n); ++i) {\n        p[i].value = old[i].value;\n    }\n    delete[] old;\n    return p;\n}\n",
+   "attempts": 3,
    "hints_revealed": 0,
-   "solved_at": null
+   "solved_at": "2026-11-25T15:52:30"
   },
   "04-heap-raii/04-raii-wrapper": {
    "status": "untouched",
