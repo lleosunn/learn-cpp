@@ -9,9 +9,7 @@
 // the AddressSanitizer report before you change anything.
 Tracked* grow(Tracked* old, std::size_t old_n, std::size_t new_n) {
     Tracked* p = new Tracked[new_n];
-    for (std::size_t i = 0; i < std::min(old_n, new_n); ++i) {
-        p[i].value = old[i].value;
-    }
+    for (std::size_t i = 0; i < std::min(old_n, new_n); ++i) p[i].value = old[i].value;
     delete[] old;
     return p;
 }
